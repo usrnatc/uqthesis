@@ -1,0 +1,428 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.3.15)  21 MAR 2024 04:20
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**./thesis -o thesis.pdf
+(./thesis.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+(/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2023/05/17 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/bk12.clo
+File: bk12.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count187
+\c@chapter=\count188
+\c@section=\count189
+\c@subsection=\count190
+\c@subsubsection=\count191
+\c@paragraph=\count192
+\c@subparagraph=\count193
+\c@figure=\count194
+\c@table=\count195
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\bibindent=\dimen140
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen141
+\Gin@req@width=\dimen142
+)
+(/usr/share/texlive/texmf-dist/tex/latex/cite/cite.sty
+LaTeX Info: Redefining \cite on input line 302.
+LaTeX Info: Redefining \nocite on input line 332.
+Package: cite 2015/02/27  v 5.5
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count196
+\lst@gtempboxa=\box51
+\lst@token=\toks18
+\lst@length=\count197
+\lst@currlwidth=\dimen143
+\lst@column=\count198
+\lst@pos=\count199
+\lst@lostspace=\dimen144
+\lst@width=\dimen145
+\lst@newlines=\count266
+\lst@lineno=\count267
+\lst@maxwidth=\dimen146
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
+\c@lstnumber=\count268
+\lst@skipnumbers=\count269
+\lst@framebox=\box52
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2023/02/27 1.9 listings configuration
+))
+Package: listings 2023/02/27 1.9 (Carsten Heinz)
+\c@defn=\count270
+\c@theorem=\count271
+\c@lemma=\count272
+
+Enter \includeonly{...} command (or just type RETURN):
+
+\@typein=
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count273
+\l__pdf_internal_box=\box53
+)
+(./thesis.aux)
+\openout1 = `thesis.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count274
+\scratchdimen=\dimen147
+\scratchbox=\box54
+\nofMPsegments=\count275
+\nofMParguments=\count276
+\everyMPshowfont=\toks19
+\MPscratchCnt=\count277
+\MPscratchDim=\dimen148
+\MPnumerator=\count278
+\makeMPintoPDFobject=\count279
+\everyMPtoPDFconversion=\toks20
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+\c@lstlisting=\count280
+<UQLogo.png, id=1, 602.25pt x 157.58875pt>
+File: UQLogo.png Graphic file (type png)
+<use UQLogo.png>
+Package pdftex.def Info: UQLogo.png  used on input line 153.
+(pdftex.def)             Requested size: 426.79134pt x 111.68198pt.
+
+[1
+
+
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./UQLogo.png>] [2
+
+]
+[3] [4
+
+] [5
+
+] [6
+
+] [7
+
+] (./thesis.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 7.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 7.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 7.
+ [8
+
+])
+\tf@toc=\write3
+\openout3 = `thesis.toc'.
+
+ [9] (./thesis.lof)
+\tf@lof=\write4
+\openout4 = `thesis.lof'.
+
+ [10
+
+] (./thesis.lot)
+\tf@lot=\write5
+\openout5 = `thesis.lot'.
+
+
+[11
+
+] [12
+
+]
+Chapter 1.
+[1
+
+
+]
+Chapter 2.
+[2
+
+] [3] [4]
+Chapter 3.
+[5
+
+] [6]
+Chapter 4.
+[7
+
+{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+Overfull \hbox (1.76988pt too wide) in paragraph at lines 580--580
+[]\OT1/cmr/bx/n/12 Likelihood| 
+ []
+
+
+Overfull \hbox (1.95183pt too wide) in paragraph at lines 580--580
+[]\OT1/cmr/bx/n/12 Consequence| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 582--582
+[]\OT1/cmr/m/n/12 Loss of
+ []
+
+
+Underfull \hbox (badness 1675) in paragraph at lines 582--582
+[]\OT1/cmr/m/n/12 Manage mul-ti-ple in-
+ []
+
+
+Underfull \hbox (badness 1038) in paragraph at lines 582--583
+\OT1/cmr/m/n/12 server and save and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 584--584
+[]\OT1/cmr/m/n/12 Milestone
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 584--585
+[]\OT1/cmr/m/n/12 Consistent check-ing
+ []
+
+
+Underfull \hbox (badness 1097) in paragraph at lines 584--585
+\OT1/cmr/m/n/12 of time man-age-ment
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 586--586
+[]\OT1/cmr/m/n/12 Loss of
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 586--586
+\OT1/cmr/m/n/12 project
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 586--587
+[]\OT1/cmr/m/n/12 Consistent meet-ing
+ []
+
+
+Underfull \hbox (badness 6428) in paragraph at lines 586--587
+\OT1/cmr/m/n/12 with su-per-vi-sors to
+ []
+
+
+Overfull \hbox (51.46448pt too wide) in paragraph at lines 578--589
+ [][] 
+ []
+
+[8]
+Overfull \hbox (1.76988pt too wide) in paragraph at lines 597--597
+[]\OT1/cmr/bx/n/12 Likelihood| 
+ []
+
+
+Overfull \hbox (1.95183pt too wide) in paragraph at lines 597--597
+[]\OT1/cmr/bx/n/12 Consequence| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 599--599
+\OT1/cmr/m/n/12 of Com-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 599--599
+[]\OT1/cmr/m/n/12 Comfortable
+ []
+
+
+Underfull \hbox (badness 1337) in paragraph at lines 599--600
+\OT1/cmr/m/n/12 dur-ing com-puter us-
+ []
+
+
+Overfull \hbox (51.46448pt too wide) in paragraph at lines 595--602
+ [][] 
+ []
+
+[9]
+Chapter 5.
+[10
+
+]
+Chapter 6.
+[11
+
+] [12]
+Underfull \hbox (badness 10000) in paragraph at lines 657--658
+[]\OT1/cmr/m/n/12 Gilles Du-boscq, Lukas Stadler, Thomas Wuerthinger, Doug Si-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 657--658
+\OT1/cmr/m/n/12 mon, Chris-tian Wim-mer, Hanspeter Moessen-boeck. 2013. \OT1/cm
+r/m/it/12 Graal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 657--658
+\OT1/cmr/m/it/12 IR: An Ex-ten-si-ble Declar-a-tive In-ter-me-di-ate Rep-re-sen
+-ta-tion\OT1/cmr/m/n/12 .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 659--660
+\OT1/cmr/m/it/12 Rep-re-sen-ta-tion\OT1/cmr/m/n/12 . https://www.oracle.com/tec
+hnetwork/java/javase/tech/c2-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 661--662
+[]\OT1/cmr/m/n/12 Oracle. 2024. \OT1/cmr/m/it/12 Or-a-cle GraalVM En-ter-prise 
+Edi-tion 21\OT1/cmr/m/n/12 .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 661--662
+\OT1/cmr/m/n/12 https://docs.oracle.com/en/graalvm/enterprise/21/docs/reference
+-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 662--663
+[]\OT1/cmr/m/n/12 Preston Briggs and Keith D. Cooper. 1994. \OT1/cmr/m/it/12 Ef
+-fec-tive par-tial re-
+ []
+
+
+Underfull \hbox (badness 4886) in paragraph at lines 662--663
+\OT1/cmr/m/it/12 dun-dancy elim-i-na-tion\OT1/cmr/m/n/12 . SIG-PLAN Not. 29, 6 
+(June 1994), 159{170.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 663--664
+[]\OT1/cmr/m/n/12 M. Sipek, B. Mi-hal-je-vic, A. Radovan. 2021. \OT1/cmr/m/it/1
+2 Ex-plor-ing As-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 663--664
+\OT1/cmr/m/it/12 pects of Poly-glot High-Performance Vir-tual Ma-chine GraalVM\
+OT1/cmr/m/n/12 .
+ []
+
+[13
+
+
+]
+Underfull \hbox (badness 1158) in paragraph at lines 666--667
+[]\OT1/cmr/m/n/12 Martyn J. Cor-den, David Kre-itzer. 2018. \OT1/cmr/m/it/12 Co
+n-sis-tency of Floating-Point
+ []
+
+
+Underfull \hbox (badness 1024) in paragraph at lines 666--667
+\OT1/cmr/m/it/12 Re-sults us-ing the In-tel Com-piler or Why doesn't my ap-pli-
+ca-tion al-ways
+ []
+
+
+Underfull \hbox (badness 4242) in paragraph at lines 666--667
+\OT1/cmr/m/it/12 give the same an-swer?\OT1/cmr/m/n/12 . Soft-ware Ser-vices Gr
+oup, In-tel Cor-po-ra-tion.
+ []
+
+
+Overfull \hbox (15.98323pt too wide) in paragraph at lines 666--667
+\OT1/cmr/m/n/12 https://www.intel.com/content/dam/develop/external/us/en/docume
+nts/pdf/fp-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 668--669
+[]\OT1/cmr/m/n/12 Oracle. 2015-2022. \OT1/cmr/m/it/12 GraalVM Re-as-so-ci-a-tio
+n Phase Source\OT1/cmr/m/n/12 .
+ []
+
+
+Overfull \hbox (30.86226pt too wide) in paragraph at lines 668--669
+\OT1/cmr/m/n/12 jdk.graal.compiler/src/jdk/graal/compiler/phases/common/Reassoc
+iationPhase.java 
+ []
+
+[14] (./thesis.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+ ***********
+ ) 
+Here is how much of TeX's memory you used:
+ 3223 strings out of 474222
+ 46152 string characters out of 5748733
+ 1950975 words of memory out of 5000000
+ 25488 multiletter control sequences out of 15000+600000
+ 564654 words of font info for 58 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 57i,10n,65p,395b,1241s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl12.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf/fonts/type1/public/cm-s
+uper/sfrm1200.pfb>
+Output written on thesis.pdf (26 pages, 147263 bytes).
+PDF statistics:
+ 132 PDF objects out of 1000 (max. 8388607)
+ 85 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+

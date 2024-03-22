@@ -1,0 +1,671 @@
+\documentclass[12pt,openany,a4paper]{book}
+\usepackage{graphicx}	% if you want encapsulated PS figures.
+\usepackage{cite}
+\usepackage{listings}
+
+% If you use a macro file called macros.tex :
+% \input{macros}
+% Note: The present document has its macros built in.
+
+% Number subsections but not subsubsections:
+\setcounter{secnumdepth}{2}
+% Show subsections but not subsubsections in table of contents:
+\setcounter{tocdepth}{2}
+
+\pagestyle{headings}		% Chapter on left page, Section on right.
+\raggedbottom
+
+\setlength{\topmargin}		{-5mm}  %  25-5 = 20mm
+\setlength{\oddsidemargin}	{10mm}  % rhs page inner margin = 25+10mm
+\setlength{\evensidemargin}	{0mm}   % lhs page outer margin = 25mm
+\setlength{\textwidth}		{150mm} % 35 + 150 + 25 = 210mm
+\setlength{\textheight}		{240mm} % 
+
+\renewcommand{\baselinestretch}{1.2}	% Looks like 1.5 spacing.
+
+% Stop figure/tables smaller than 3/4 page from appearing alone on a page:
+\renewcommand{\textfraction}{0.25}
+\renewcommand{\topfraction}{0.75}
+\renewcommand{\bottomfraction}{0.75}
+\renewcommand{\floatpagefraction}{0.75}
+
+% THEOREM-LIKE ENVIRONMENTS:
+\newtheorem{defn}	{Definition}	% cf. \dfn for cross-referencing
+\newtheorem{theorem}	{Theorem}	% cf. \thrm for cross-referencing
+\newtheorem{lemma}	{Lemma}		% cf. \lem for cross-referencing
+
+% AIDS TO CROSS-REFERENCING (All take a label as argument):
+\newcommand{\eref}[1] {(\ref{#1})}		% (...)
+\newcommand{\eq}[1]   {Eq.\,(\ref{#1})}		% Eq.~(...)
+\newcommand{\eqs}[2]  {Eqs.~(\ref{#1}) and~(\ref{#2})}
+\newcommand{\dfn}[1]  {Definition~\ref{#1}}	% Definition~...
+\newcommand{\thrm}[1] {Theorem~\ref{#1}}	% Theorem~...
+\newcommand{\lem}[1]  {Lemma~\ref{#1}}		% Lemma~...
+\newcommand{\fig}[1]  {Fig.\,\ref{#1}}		% Fig.~...
+\newcommand{\tab}[1]  {Table~\ref{#1}}		% Table~...
+\newcommand{\chap}[1] {Chapter~\ref{#1}}	% Chapter~...
+\newcommand{\secn}[1] {Section~\ref{#1}}	% Section~...
+\newcommand{\ssec}[1] {Subsection~\ref{#1}}	% Subsection~...
+
+% AIDS TO FORMATTING:
+\newcommand{\teq}[1]	{\mbox{$#1$}}	% in-Text EQuation (unbreakable)
+\newcommand{\qed}	{\hspace*{\fill}$\bullet$}	% end of proof
+
+% MATHEMATICAL TEMPLATES:
+% Text or math mode:
+\newcommand{\half}	{\ensuremath{\frac{1}{2}}}	% one-half
+\newcommand{\halftxt}	{\mbox{$\frac{1}{2}$}}	  	% one-half, small
+% Math mode only:
+% N.B. Parentheses are ROUND; brackets are SQUARE!
+\newcommand{\oneon}[1]	{\frac{1}{#1}}		  % reciprocal
+\newcommand{\pow}[2]	{\left({#1}\right)^{#2}}  % Parenthesized pOWer
+\newcommand{\bow}[2]	{\left[{#1}\right]^{#2}}  % Bracketed pOWer
+\newcommand{\evalat}[2]	{\left.{#1}\right|_{#2}}  % EVALuated AT with bar
+\newcommand{\bevalat}[2]{\left[{#1}\right]_{#2}}  % Bracketed EVALuated AT
+% Total derivatives:
+\newcommand{\sdd}[2]	{\frac{d{#1}}{d{#2}}}		    % Short
+\newcommand{\sqdd}[2]	{\frac{d^2{#1}}{d{#2}^2}}	    % 2nd ("SQuared")
+\newcommand{\ldd}[2]	{\frac{d}{d{#1}}\left({#2}\right)}  % Long paren'ed
+\newcommand{\bdd}[2]	{\frac{d}{d{#2}}\left[{#2}\right]}  % long Bracketed
+% Partial derivatives (same sequence as for total derivatives):
+\newcommand{\sdada}[2]	{\frac{\partial {#1}}{\partial {#2}}}
+\newcommand{\sqdada}[2]	{\frac{\partial ^{2}{#1}}{\partial {#2}^{2}}}
+\newcommand{\ldada}[2]	{\frac{\partial}{\partial {#1}}\left({#2}\right)}
+\newcommand{\bdada}[2]	{\frac{\partial}{\partial {#1}}\left[{#2}\right]}
+\newcommand{\da}	{\partial}
+
+% ORDINAL NUMBERS:
+\newcommand{\ith}	{\ensuremath{i^{\rm th}}}
+\newcommand{\jth}	{\ensuremath{j^{\rm th}}}
+\newcommand{\kth}	{\ensuremath{k^{\rm th}}}
+\newcommand{\lth}	{\ensuremath{l^{\rm th}}}
+\newcommand{\mth}	{\ensuremath{m^{\rm th}}}
+\newcommand{\nth}	{\ensuremath{n^{\rm th}}}
+
+% SINUSOIDAL TIME AND SPACE-DEPENDENCY FACTORS:
+\newcommand{\ejot}	{\ensuremath{e^{j\omega t}}}
+\newcommand{\emjot}	{\ensuremath{e^{-j\omega t}}}
+
+% UNITS (TEXT OR MATH MODE, WITH LEADING PADDING SPACE IF APPLICABLE):
+% NB: These have not been tested since being modified for LaTeX2e.
+\newcommand{\pack}	{\hspace{-0.08em}}
+\newcommand{\Pack}	{\hspace{-0.12em}}
+\newcommand{\mA}	{\ensuremath{\rm\,m\pack A}}
+\newcommand{\dB}	{\ensuremath{\rm\,d\pack B}}
+\newcommand{\dBm}	{\ensuremath{\rm\,d\pack B\pack m}}
+\newcommand{\dBW}	{\ensuremath{\rm\,d\pack B\Pack W}}
+\newcommand{\uF}	{\ensuremath{\rm\,\mu\pack F}}
+\newcommand{\pF}	{\ensuremath{\rm\,p\pack F}}
+\newcommand{\nF}	{\ensuremath{\rm\,n\pack F}}
+\newcommand{\uH}	{\ensuremath{\rm\,\mu\pack H}}
+\newcommand{\mH}	{\ensuremath{\rm\,m\pack H}}
+\newcommand{\Hz}	{\ensuremath{\rm\,H\pack z}}
+\newcommand{\kHz}	{\ensuremath{\rm\,k\pack H\pack z}}
+\newcommand{\MHz}	{\ensuremath{\rm\,M\pack H\pack z}}
+\newcommand{\GHz}	{\ensuremath{\rm\,G\pack H\pack z}}
+\newcommand{\J}		{\ensuremath{\rm\,J}}
+\newcommand{\kg}	{\ensuremath{\rm\,k\pack g}}
+\newcommand{\K}		{\ensuremath{\rm\,K}}
+\newcommand{\m}		{\ensuremath{\rm\,m}}
+\newcommand{\cm}	{\ensuremath{\rm\,cm}}
+\newcommand{\km}	{\ensuremath{\rm\,k\pack m}}
+\newcommand{\mm}	{\ensuremath{\rm\,m\pack m}}
+\newcommand{\nm}	{\ensuremath{\rm\,n\pack m}}
+\newcommand{\um}	{\ensuremath{\rm\,\mu m}}
+\newcommand{\Np}	{\ensuremath{\rm\,N\pack p}}
+\newcommand{\s}		{\ensuremath{\rm\,s}}
+\newcommand{\ms}	{\ensuremath{\rm\,m\pack s}}
+\newcommand{\us}	{\ensuremath{\rm\,\mu s}}
+\newcommand{\V}		{\ensuremath{\rm\,V}}
+\newcommand{\mV}	{\ensuremath{\rm\,m\Pack V}}
+\newcommand{\W}		{\ensuremath{\rm\,W}}
+\newcommand{\mW}	{\ensuremath{\rm\,m\Pack W}}
+\newcommand{\ohm}	{\ensuremath{\rm\,\Omega}}
+\newcommand{\kohm}	{\ensuremath{\rm\,k\Omega}}
+\newcommand{\Mohm}	{\ensuremath{\rm\,M\Omega}}
+\newcommand{\degs}	{\ensuremath{\rm^{\circ}}}
+
+% LaTeX run-time type-in command:
+%
+\typein{Enter \protect\includeonly{...} command (or just type RETURN):}
+%
+% Uncommenting this command makes LaTeX prompt you for the \includeonly
+% list.  At the prompt
+%
+%	\@typein=
+%
+% you type
+%
+%	\includeonly{chap1,chap2}
+%
+% to include the files chap1.tex and chap2.tex and omit any others.
+% To include every \include file, just hit RETURN.
+% If you are running LaTeX from xtexsh, you may need to click the mouse
+% in the LaTeX window to position the cursor at the \@typein prompt.
+
+\begin{document}
+
+\frontmatter
+% By default, frontmatter has Roman page-numbering (i,ii,...).
+
+\begin{titlepage}
+\begin{center}
+\includegraphics[width=\linewidth]{UQLogo.png}
+\end{center}
+\renewcommand{\baselinestretch}{1.0}
+\begin{center}
+\vspace*{35mm}
+\Huge\bf
+% TODO: settle on title
+		%Investigating Arithmetic\\
+        %Re-Association within the\\
+        %GraalVM Compiler\\
+        Project Proposal\\
+        Draft\\
+\vspace{20mm}
+\large\sl
+		by\\
+		Nathan Corcoran
+		\medskip\\
+\rm
+		School of Information Technology and Electrical Engineering,\\
+		The University of Queensland.\\
+\vspace{30mm}
+		Submitted for the degree of\\
+		Bachelor of Engineering
+		\smallskip\\
+\normalsize
+		in the field of Software Engineering
+		\medskip\\
+\large
+		March 2024.
+\end{center}
+\end{titlepage}
+
+\cleardoublepage
+
+\begin{flushright}
+    Nathan Corcoran\\
+    n.corcoran@uqconnect.edu.au\\
+	\medskip
+	\today
+\end{flushright}
+\begin{flushleft}
+  Prof Michael Bruenig\\
+  Head of School\\
+  School of Information Technology and Electrical Engineering\\
+  The University of Queensland\\
+  St Lucia, Q 4072\\
+  \bigskip\bigskip
+  Dear Professor Bruenig,
+\end{flushleft}
+
+In accordance with the requirements of the degree of Bachelor of
+Engineering in the division of 
+Software Engineering,
+I present the
+following thesis entitled ``Investigating Arithmetic Re-Association within the GraalVM Compiler''.  This work was performed under the supervision of
+A/Prof.\ Mark Utting, Prof.\ Ian J.\ Hayes and, Mr.\ Brae Webb.
+
+I declare that the work submitted in this thesis is my own, except as
+acknowledged in the text and footnotes, and has not been previously
+submitted for a degree at The University of Queensland or any other
+institution.
+
+\begin{flushright}
+	Yours sincerely,\\
+	\medskip
+	\emph{--INSERT SIGNATURE--}\\
+	\medskip
+	Nathan Corcoran.
+\end{flushright}
+
+\cleardoublepage
+
+\chapter{Acknowledgments}
+
+Acknowledge your supervisor, preferably with a few short and specific
+statements about his/her contribution to the content and direction of
+the project.  If you collaborated with another student, acknowledge
+your partner's contribution, including any parts of the thesis of
+which s/he was the principal author or co-author; this information can
+be duplicated in footnotes to the chapters or sections to which your
+partner has contributed.  Briefly describe any assistance that you
+received from technical or administrative staff.  Support of family
+and friends may also be acknowledged, but avoid sentimentality---or
+hide it in the dedication.
+
+\cleardoublepage
+
+\chapter{Abstract}
+
+\tableofcontents
+
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+
+\listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
+
+% If file los.tex begins with ``\chapter{List of Symbols}'':
+% \include{los}
+
+\cleardoublepage
+
+\mainmatter
+% By default, mainmatter has Arabic page-numbering (1,2,...).
+
+
+% Chapters may be \include files, each beginning with a line like
+%
+%	\chapter{Title of chapter}
+%
+% e.g. if two chapter files were called intro.tex and theory.tex,
+% we would say
+%
+%	\include{intro}
+%	\include{theory}
+
+\chapter{Introduction}
+\label{intro}
+
+Optimising compilers are a crucial tool for building efficient 
+modern programs. They allow developers to write highly abstracted code without 
+sacrificing program performance. High-level abstractions are relied upon when
+programming complex models that many of modern software requires. The GraalVM
+compiler is one such compiler that aims to achieve high-levels of optimisation.
+Arithmetic expressions allow for a plethora of optimisation opportunities and it is important that
+expressions are represented in such a way to ease methods of optimisation. 
+Arithmetic re-association plays a pivotal role in this. The method is not used
+to optimise the code by itself, but rather to create opportunities for further
+optimisations. Consequently, to maximise the effectiveness of an optimising
+compiler, we must ensure effectiveness of re-association methods. 
+Currently, the GraalVM compiler optimises expressions by way 
+of graph comparisons and manipulations. Although GraalVM currently employs a 
+method of re-association, its stated purpose is to aid only loop-invariant
+and constant-folding optimisations~\cite{graalsrc}. Expressions outside of loops are not
+re-associated, potentially losing further optimisations within a program.\\
+The purpose of this report is to investigate the effectiveness of current method
+of arithmetic re-association within the GraalVM compiler. The report will attempt
+to determine short-comings of the compiler by way of missed further expression optimisations.
+A alternative method of re-association will be investigated to maximise the
+effectiveness of optimisations within the GraalVM compiler.
+The report will have the following structure:~\secn{ara} will discuss
+arithmetic re-association following on with~\secn{opt} covering some of the further optimisations it aids,
+~\secn{ir} will cover how a compiler can represent source code using graphs,
+~\secn{graal} will discuss GraalVM and how re-association methods are applied 
+to this representation, ~\secn{litrev} will review some previous work on 
+optimising compilers, and finally,~\secn{methods} will present a 
+plan to investigate shortcomings of current methods within the GraalVM compiler
+as well as a plan to rectify them.
+
+\chapter{Background}
+\label{bg}
+
+\section{Arithmetic Re-Association}
+\label{ara}
+
+Arithmetic re-association utilises the associative and
+commutative properties of certain arithmetic operators to re-arrange expressions~\cite{redund}. 
+This may allow simplifications that were not easily identified in the original 
+expression to be made evident. Re-association methods use associative,
+distributive, and commutative properties of some operators to re-order arithmetic
+expressions.
+Using re-association, a compiler would transform the expression
+\verb|x = 23 + i + y + 43 + i| into the form \verb|x = i + i + y + 23 + 43|. It
+is now easier for the compiler to reason that the sub-expression \verb|23 + 43|
+can be optimised to a single constant.
+Arithmetic re-association only alters the representation of a given expression,
+and not its resulting value. Hence, it can only be applied to operators that
+are distributive. For this reason, re-association methods are generally not
+applied to floating point expressions~\cite{floats}.
+
+\section{Optimisations}
+\label{opt}
+
+\subsection{Algebraic Simplification}
+\label{as}
+
+Algebraic simplification can allow for large performance optimisations in
+programs. It is the process of simplifying expressions which can produce smaller
+but equivalent expressions, or replace operators with which are faster to compute. 
+This process utilises both the mathematical properties of associativity, commutativity, 
+and distributivity, and operator identities. Some simple examples of algebraic
+simplification can be seen in~\fig{simp}. 
+
+\begin{figure}[htbp]
+    \hspace{0.25\textwidth}
+    \begin{minipage}[c]{0.5\linewidth}
+    \begin{lstlisting}[frame=single, basicstyle=\ttfamily\small, tabsize=1, columns=fullflexible]
+    -(-a)           -->  a
+    a - a           -->  0
+    a * 2           -->  a << 1
+    2 * a + 3 * a   -->  (2 + 3) * a
+    \end{lstlisting}
+    \end{minipage}
+    \caption{Examples of algebraic simplifications}
+    \label{simp}
+\end{figure}
+
+\subsection{Constant Folding}
+\label{cf}
+
+Constant folding is the process of trivially merging sequences of sub-expressions 
+containing only constant values. Simply, the expression \(2 + 3 - 1\) would be 
+transformed to be \(4\).
+
+\subsection{Loop Invariant Code Motion}
+\label{licm}
+
+Loop invariant code motion, also referred to as \emph{hoisting}, aims to reduce
+the number of computations required within loop bodies. If a sub-
+expression is reasoned to be constant, that is invariant, across all loop iterations, 
+this value can be stored elsewhere and its resulting value can be referenced inside of the
+loop. A trivial example of this can be seen in~\fig{hoist}. More complex scenarios
+arise when function calls are hoisted, yeilding larger performance optimisations.
+
+\begin{figure}
+    \begin{minipage}[l]{0.4\linewidth}
+        \begin{lstlisting}[frame=single, basicstyle=\ttfamily\small, tabsize=1, columns=fullflexible]
+
+        for i = 1..10 {
+            a = i + b * 3
+        }
+        \end{lstlisting}
+    \end{minipage}
+    \hspace{0.18\textwidth}
+    \begin{minipage}[l]{0.4\linewidth}
+        \begin{lstlisting}[frame=single, basicstyle=\ttfamily\small, tabsize=1, columns=fullflexible]
+        b0 = b * 3
+        for i = 1..10 {
+            a = i + b0
+        }
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Example of before and after hoisting respectively}
+    \label{hoist}
+\end{figure}
+
+\section{Intermediate Representation}
+\label{ir}
+
+Generally, compilers do not perform optimisations directly on high-level code.
+Instead, an \emph{intermediate representation} (IR) is used to represent the
+program in such a way that optimisations are easily implemented. Intermediate
+representations are split into three levels: high, medium, and low. Each
+level generally represents the source code in different ways, these differences
+are defined by the optimisations expecting to be performed.
+Common forms of IR are graph-, tree-, and stack-based structures. These are
+usually selected depending on how much information is needed from the source
+code in order to apply an optimisation.
+This report will focus on graph-based intermediate representation.
+
+\section{GraalVM}
+\label{graal}
+
+The GraalVM compiler, released by Oracle Labs, is a polyglot optimising compiler
+for languages that run on the Java Virtual Machine (JVM). It focuses on aggresively
+optimising programs, with around 62 possible methods~\cite{graalenterprise} of doing so.\\
+The GraalVM compiler uses a graph-based structure as an intermediate
+representation. Graphs are an efficient way to store program flow contexts. Nodes represent
+basic code blocks or data values, and directed edges represent dependencies 
+between nodes. Lacking circular dependencies~\cite{gir}, the graph is more accurately a
+directed acyclic graph (DAG). DAGs minimise redundancy by sharing common sub-graphs.
+The GraalVM IR also uses a single graph to model both control- and data-flow, 
+creating a \emph{program-graph}~\cite{understanding}. Traversing control edges outlines the order in which
+a program must be run, whilst traversing data edges outlines how data is
+passed and what instructions are manipulating it throughout the program's run.
+This benefits the implementation of optimisations as both contexts are easily
+accessed. Though, this makes graphs with nested or complex control flows messy
+and difficult to follow. Hence, it is often stated that GraalVM uses a
+\emph{sea of nodes} to represent program behaviour.\\
+Within GraalVM optimisations are referred to as \emph{phases}. Execution order of
+phases are defined as \verb|PhaseSuite|s, an ordered list of optimisations to be
+applied in sequence. \verb|PhaseSuite|s can be scheduled within other \verb|PhaseSuite|s.
+The compiler uses three tiers to run phases; low, mid, and high. Progressing from
+the high to the low tier, lower and lower level optimisations are applied to the
+graph. After each tier has completed, the graph is prepared for the next, called
+\emph{lowering}~\cite{poly-graal}
+
+\chapter{Literature Review}
+\label{litrev}
+
+\section{Effective Partial Redundancy Elimination}
+\label{litrev1}
+
+This report addresses methods to increase the effectiveness of partial redundancy
+elimination within an optimising compiler. The report proposes a method of
+\emph{global reassociation} to re-arrange expressions within a program.\\
+The report uses a system to sort sub-expressions by ranking the operators within
+them. It uses these ranks as a hueristic to determine a sub-expressions new
+location within an expression and to determine which sub-expressions should be
+distributed.\\
+This report will investigate the methods proposed to determine any benefit in
+a the GraalVM compiler, though some concerns are immediately apparent. The report
+proposes the use of \emph{expression trees} to store sub-expressions and their
+associated ranks, and are forward-propagated. This is generally a space-expensive
+operation. This report will investigate the pay off from gained optimisations, if any, to 
+the excessive memory usage that may present itself when re-associating very large 
+and complex expressions. The report also explicitly states that what it proposes 
+is not an optimal solution, but rather one that produces good results. 
+This report will investigate extensions to the method presented for optimal 
+arithmetic re-association.~\cite{effective-pre}
+
+\section{Finding Missed Compiler Optimizations by Differential Testing}
+\label{litrev2}
+
+This report investigates the usage of differential testing to detect missed
+compiler optimisations. The report generates random programs with well defined
+source code constraints and compares generated binaries across 3 C compilers; GCC,
+Clang, and CompCert. The binaries are compared with a Python tool called 
+\verb|optdiff|. The randomly generated code was restricted by omitting any code
+that would (A) invoke undefined behaviour from the language, and (B) rely on 
+compiler-defined implementations of certain features, order of evaluation of
+expressions is presented as an example. The report correctly identifies some 
+difficulties in using differential analysis on generated binaries, however, 
+reducers are presented as a sound solution to these issues.\\
+The report scope is extremely broad in that it attempts to catch missed
+opportunities from a large range of expected optimisations, some of which are
+explicitly stated as begin architecture-specific. The report also states that
+some initial results were found to be false-positive.\\
+This report will investigate the usage of differential analysis to find missed optimisations within the 
+GraalVM compiler. In an attempt to maximise the validity of any findings, this report
+will narrow the scope of missed optimisations to be searched for, and methods
+data used when comparing. This report will investigate this testing method
+focusing on finding missed optimisations relating to arithmetic expressions, and
+the usage of generated IR graphs for comparison. A method to randomly generate
+large complex expressions with corresponding simplified equivalents will be
+investigated. In order to uphold correctness, a verification method will also 
+be investigated.~\cite{missed-opt}
+
+\chapter{Methodology}
+\label{methods}
+
+In order to maintain a sound workflow and maximise findings, this project will
+adhere to the following milestones:
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{ |c|c| }
+        \hline
+        \textbf{Milestone} & \textbf{Proposed Deadline}\\
+        \hline
+        Research & Week 7 Semester 1\\
+        \hline
+        Implementation & Week 12 Semester 1\\
+        \hline
+        Optimisation & Week 7 Semester 2\\
+        \hline
+        Report & Week 13 Semester 2\\
+        \hline
+        Testing & Throughout\\
+        \hline
+    \end{tabular}
+    \caption{Proposed Milestones}
+    \label{milestones}
+\end{table}
+
+\section{Research}
+\label{research}
+
+Research for the project will consist of the following:
+
+\begin{itemize}
+\item Further investigate expression re-association techniques
+\item Further investigate methods of testing compiler optimisations
+\item Develop implementation plan for alternate expression re-association techniques
+\item Develop implementation plan for testing alternate methods
+\item Become familiar with the GraalVM compiler structure
+\end{itemize}
+
+\section{Implementation}
+\label{implementation}
+
+Implementation for the project will consist of the following:
+
+\begin{itemize}
+\item Develop expression re-association algorithm
+\item Integrate expression re-association algorithm in to GraalVM compiler
+\item Consistent meetings with supervisors to review implementation
+\end{itemize}
+
+\section{Optimisation}
+\label{optimisation}
+
+Optimisation for the project will be completed if deemed necessary and will
+consist of the following:
+
+\begin{itemize}
+\item Profile implementation to identify potential performance bottlenecks
+\item Plan implementation performance fixes
+\item Consistent meetings with supervisors to review code fixes
+\end{itemize}
+
+\section{Report}
+\label{report}
+
+Report writing for the project will consist of the following:
+
+\begin{itemize}
+\item Consistent upkeep of progress journal
+\item Consistent logging of findings
+\item Determining future improvements of findings
+\item Determining further usages of re-association algorithm
+\item Consistent meetings with supervisors to discuss potential edits
+\end{itemize}
+
+\section{Testing}
+\label{testing}
+
+Testing within the project will be continuous and will ultimately shape the
+final implementation. Testing for the project will consist of the following:
+
+\begin{itemize}
+\item Develop testing of compiler optimisations that may be missed
+\item Develop complex expressions to test compiler optimisation
+\item Investigate method of automatic running of tests
+\item Consistent meetings with supervisors and peers for recommendations of testing methods
+\end{itemize}
+
+\section{Risks}
+\label{risks}
+
+The following risks have been determined for the project along with associated
+mitigation and prevention strategies:
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ |p{2cm}|p{2.1cm}|p{2.6cm}|p{4cm}|p{4cm}| }
+        \hline
+        \textbf{Risk} & \textbf{Likelihood} & \textbf{Consequence} & \textbf{Mitigation} & \textbf{Prevention}\\
+        \hline
+        Loss of work & Unlikely & Severe & Manage multiple instances of progress & Store progress on UQ server and save and push regularly\\
+        \hline
+        Milestone delays & Unlikely & Moderate & Create time management plan & Consistent checking of time management plan and meeting with supervisors\\
+        \hline
+        Loss of project direction & Unlikely & Low & Create clear task plan & Consistent meeting with supervisors to review work\\
+        \hline
+    \end{tabular}
+    \caption{Project Risks}
+    \label{project-risk-table}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ |p{2cm}|p{2.1cm}|p{2.6cm}|p{4cm}|p{4cm}| }
+        \hline
+        \textbf{Risk} & \textbf{Likelihood} & \textbf{Consequence} & \textbf{Mitigation} & \textbf{Prevention}\\
+        \hline
+        Unsafe use of Computer & Unlikely & Moderate & Comfortable workspace & Ensure regular breaks during computer usage\\
+        \hline
+    \end{tabular}
+    \caption{Safety Risks}
+    \label{safety-risk-table}
+\end{table}
+% \begin{figure}[htbp]
+% \caption{Experimental two-way active crossover (op-amp version)}
+% \label{flr1}
+% \end{figure}
+\chapter{Results and discussion \ldots}
+% 
+% \ldots\ or perhaps the discussion should be a separate chapter.
+% 
+% In any case, you will probably need to include tabulated results.
+% \tab{tf2} illustrates the use of various \LaTeX\ environments to
+% include a computer printout (plain text file) in a document.  The
+% \texttt{verbatim} environment, which encloses the formatted text, is
+% also useful for program listings.
+% 
+% 
+\chapter{Conclusions}
+% 
+% \section{Summary and conclusions}
+% 
+% \section{Possible future work}
+
+\appendix
+
+% Chapters after the \appendix command are lettered, not numbered.
+% Setting apart the appendices in the table of contents is awkward:
+
+\newpage
+\addcontentsline{toc}{part}{Appendices}
+\mbox{}
+\newpage
+
+% The \mbox{} command between two \newpage commands gives a blank page.
+% In the contents, the ``Appendices'' heading is shown as being on this
+% blank page, which is the page before the first appendix.  This stops the
+% first appendix from be listed ABOVE the word ``Appendices'' in the
+% table of contents.
+
+% \include appendix chapters here.
+
+% \chapter{Dummy appendix}
+
+% Appendices are useful for supplying necessary details or explanations
+% which do not seem to fit into the main text, perhaps because they are
+% too long and would distract the reader from the central argument.
+% Appendices are also used for program listings.
+
+\cleardoublepage
+
+\begin{thebibliography}{99}
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibitem{gvm} Oracle. 2024. \emph{GraalVM: An advanced JDK with ahead-of-time Native Image compilation}. https://github.com/oracle/graal
+\bibitem{vtgo} Brae J. Webb, Ian J. Hayes, and Mark Utting. 2023. \emph{Verifying Term Graph Optimizations using Isabelle/HOL}. In Proceedings of the 12th ACM SIGPLAN International Conference on Certified Programs and Proofs (CPP ’23), January 16–17, 2023, Boston, MA, USA. ACM, New York, NY, USA, 14 pages. https://doi.org/10.1145/3573105.3575673
+\bibitem{gir} Gilles Duboscq, Lukas Stadler, Thomas Wuerthinger, Doug Simon, Christian Wimmer, Hanspeter Moessenboeck. 2013. \emph{Graal IR: An Extensible Declarative Intermediate Representation}. https://api.semanticscholar.org/CorpusID:52231504
+\bibitem{gp} OpenJDK Community. 2012. \emph{Graal Project}. https://openjdk.org/projects/graal
+\bibitem{graph-based-ir} Cliff Click, Michael Paleczny. 1995. \emph{A Simple Graph-Based Intermediate Representation}. https://www.oracle.com/technetwork/java/javase/tech/c2-ir95-150110.pdf
+\bibitem{adv-comp} Steven S. Muchnick. 1997. \emph{Advanced Compiler Design and Implementation}. Chapter 12. ISBN 1-55860-320-4
+\bibitem{graalenterprise} Oracle. 2024. \emph{Oracle GraalVM Enterprise Edition 21}. https://docs.oracle.com/en/graalvm/enterprise/21/docs/reference-manual/java/compiler/\#graal-compiler
+\bibitem{effective-pre} Preston Briggs and Keith D. Cooper. 1994. \emph{Effective partial redundancy elimination}. SIGPLAN Not. 29, 6 (June 1994), 159–170. https://doi.org/10.1145/773473.178257
+\bibitem{poly-graal} M. Sipek, B. Mihaljevic, A. Radovan. 2021. \emph{Exploring Aspects of Polyglot High-Performance Virtual Machine GraalVM}. https://doi.org/10.23919/MIPRO.2019.8756917
+\bibitem{missed-opt} Gergoe Barany. 2018. \emph{Finding Missed Compiler Optimizations by Differential Testing}. Compiler Construction (CC’18). ACM, New York, NY, USA, 11 pages. https://doi.org/10.1145/3178372.3179521
+\bibitem{understanding} Chris Seaton. 2017. \emph{Understanding How Graal Works - a Java JIT Compiler Written in Java}. https://chrisseaton.com/truffleruby/jokerconf17/
+\bibitem{floats} Martyn J. Corden, David Kreitzer. 2018. \emph{Consistency of Floating-Point Results using the Intel Compiler or Why doesn't my application always give the same answer?}. Software Services Group, Intel Corporation. https://www.intel.com/content/dam/develop/external/us/en/documents/pdf/fp-consistency-121918.pdf
+\bibitem{redund} Keith Cooper, Jason Eckhardt, Ken Kennedy. 2008. \emph{Redundancy Elimination Revisited}. PACT’08, October 25–29, 2008, Toronto, Ontario, Canada. https://cscads.rice.edu/p12-cooper.pdf
+\bibitem{graalsrc} Oracle. 2015-2022. \emph{GraalVM Reassociation Phase Source}. https://github.com/oracle/graal/blob/master/compiler/src/\\jdk.graal.compiler/src/jdk/graal/compiler/phases/common/ReassociationPhase.java
+\bibitem{hoist} David Monniaux, Cyril Six. 2022. \emph{Formally Verified Loop-Invariant Code Motion and Assorted Optimizations}. ACM Transactions on Embedded Computing Systems (TECS). ff10.114/3529507ff.hal03628646
+\end{thebibliography}
+\end{document}
