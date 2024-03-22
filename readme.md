@@ -1,6 +1,8 @@
 ::: titlepage
 ::: center
-![image](UQLogo.png){width="\\linewidth"}
+
+![logo](UQlogo.png)
+
 :::
 
 ::: center
