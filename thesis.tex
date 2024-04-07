@@ -2,6 +2,7 @@
 \usepackage{graphicx}	% if you want encapsulated PS figures.
 \usepackage{cite}
 \usepackage{listings}
+\usepackage{pgfgantt}
 
 % If you use a macro file called macros.tex :
 % \input{macros}
@@ -156,12 +157,9 @@
 \begin{center}
 \vspace*{35mm}
 \Huge\bf
-% TODO: settle on title
-		%Investigating Arithmetic\\
-        %Re-Association within the\\
-        %GraalVM Compiler\\
-        Project Proposal\\
-        Draft\\
+        Investigating A Linear\\
+        Approach to Arithmetic\\
+        Re-Association within GraalVM\\
 \vspace{20mm}
 \large\sl
 		by\\
@@ -204,7 +202,9 @@ In accordance with the requirements of the degree of Bachelor of
 Engineering in the division of 
 Software Engineering,
 I present the
-following thesis entitled ``Investigating Arithmetic Re-Association within the GraalVM Compiler''.  This work was performed under the supervision of
+following thesis entitled ``Investigating A Linear Approach
+to Arithmetic Re-Association in GraalVM''.  
+This work was performed under the supervision of
 A/Prof.\ Mark Utting, Prof.\ Ian J.\ Hayes and, Mr.\ Brae Webb.
 
 I declare that the work submitted in this thesis is my own, except as
@@ -273,28 +273,33 @@ Optimising compilers are a crucial tool for building efficient
 modern programs. They allow developers to write highly abstracted code without 
 sacrificing program performance. High-level abstractions are relied upon when
 programming complex models that many of modern software requires. The GraalVM
-compiler is one such compiler that aims to achieve high-levels of optimisation.
-Arithmetic expressions allow for a plethora of optimisation opportunities and it is important that
-expressions are represented in such a way to ease methods of optimisation. 
+compiler, released by Oracle, is one such compiler that aims to achieve 
+high-levels of optimisation. Arithmetic expressions allow for many optimisation opportunities.
 Arithmetic re-association plays a pivotal role in this. The method is not used
 to optimise the code by itself, but rather to create opportunities for further
 optimisations. Consequently, to maximise the effectiveness of an optimising
-compiler, we must ensure effectiveness of re-association methods. 
+compiler, we must ensure effectiveness of re-association methods. That is,
+expressions need to be represented in such a way that eases the implementation
+of optimisations.
 Currently, the GraalVM compiler optimises expressions by way 
-of graph comparisons and manipulations. Although GraalVM currently employs a 
-method of re-association, its stated purpose is to aid only loop-invariant
-and constant-folding optimisations~\cite{graalsrc}. Expressions outside of loops are not
-re-associated, potentially losing further optimisations within a program.\\
+of graph comparisons and manipulations when the \verb|ReassociationPhase| is invoked.
+For example, the phase would transform an expression such as \verb|x + y + z - x - y|
+by grouping like sub-expressions, forming possibly \verb|x - x + y - y + z|. This
+allows the compiler to easily reason that further optimisations can be applied, 
+including algebraic simplification, resulting in the simplified expression \verb|z|.
+For lengthy or complex expressions GraalVM`s graph manipulations can become computationally 
+expensive and the \verb|ReassociationPhase| is only utilised on expressions within
+loop bodies~\cite{graalsrc}.\\
 The purpose of this report is to investigate the effectiveness of current method
-of arithmetic re-association within the GraalVM compiler. The report will attempt
+of arithmetic re-association within the GraalVM compiler to a list-based
+implementation. The report will attempt
 to determine short-comings of the compiler by way of missed further expression optimisations.
-A alternative method of re-association will be investigated to maximise the
+A alternative, list-based method of re-association will be investigated to maximise the
 effectiveness of optimisations within the GraalVM compiler.
 The report will have the following structure:~\secn{ara} will discuss
 arithmetic re-association following on with~\secn{opt} covering some of the further optimisations it aids,
 ~\secn{ir} will cover how a compiler can represent source code using graphs,
-~\secn{graal} will discuss GraalVM and how re-association methods are applied 
-to this representation, ~\secn{litrev} will review some previous work on 
+~\secn{graal} will discuss the GraalVM compiler, ~\secn{litrev} will review some previous work on 
 optimising compilers, and finally,~\secn{methods} will present a 
 plan to investigate shortcomings of current methods within the GraalVM compiler
 as well as a plan to rectify them.
@@ -317,8 +322,9 @@ is now easier for the compiler to reason that the sub-expression \verb|23 + 43|
 can be optimised to a single constant.
 Arithmetic re-association only alters the representation of a given expression,
 and not its resulting value. Hence, it can only be applied to operators that
-are distributive. For this reason, re-association methods are generally not
-applied to floating point expressions~\cite{floats}.
+are associative. Due to hardware limitations, the additive operator is not
+associative across floating-point values, therefore, re-association methods are generally not
+applied~\cite{floats}.
 
 \section{Optimisations}
 \label{opt}
@@ -329,8 +335,8 @@ applied to floating point expressions~\cite{floats}.
 Algebraic simplification can allow for large performance optimisations in
 programs. It is the process of simplifying expressions which can produce smaller
 but equivalent expressions, or replace operators with which are faster to compute. 
-This process utilises both the mathematical properties of associativity, commutativity, 
-and distributivity, and operator identities. Some simple examples of algebraic
+This process utilises mathematical properties such as associativity; commutativity; 
+distributivity; and operator identities. Some simple examples of algebraic
 simplification can be seen in~\fig{simp}. 
 
 \begin{figure}[htbp]
@@ -434,7 +440,8 @@ graph. After each tier has completed, the graph is prepared for the next, called
 \label{litrev1}
 
 This report addresses methods to increase the effectiveness of partial redundancy
-elimination within an optimising compiler. The report proposes a method of
+elimination within an optimising compiler. Cooper and Briggs~\cite{effective-pre} propose 
+a method of
 \emph{global reassociation} to re-arrange expressions within a program.\\
 The report uses a system to sort sub-expressions by ranking the operators within
 them. It uses these ranks as a hueristic to determine a sub-expressions new
@@ -449,13 +456,13 @@ the excessive memory usage that may present itself when re-associating very larg
 and complex expressions. The report also explicitly states that what it proposes 
 is not an optimal solution, but rather one that produces good results. 
 This report will investigate extensions to the method presented for optimal 
-arithmetic re-association.~\cite{effective-pre}
+arithmetic re-association.
 
 \section{Finding Missed Compiler Optimizations by Differential Testing}
 \label{litrev2}
 
 This report investigates the usage of differential testing to detect missed
-compiler optimisations. The report generates random programs with well defined
+compiler optimisations. Barany~\cite{missed-opt} generates random programs with well defined
 source code constraints and compares generated binaries across 3 C compilers; GCC,
 Clang, and CompCert. The binaries are compared with a Python tool called 
 \verb|optdiff|. The randomly generated code was restricted by omitting any code
@@ -476,7 +483,30 @@ focusing on finding missed optimisations relating to arithmetic expressions, and
 the usage of generated IR graphs for comparison. A method to randomly generate
 large complex expressions with corresponding simplified equivalents will be
 investigated. In order to uphold correctness, a verification method will also 
-be investigated.~\cite{missed-opt}
+be investigated.
+
+\section{Redundancy Elimination Revisited}
+\label{litrev3}
+
+Cooper, \emph{et al.}~\cite{redund} present improvements to the method of redundancy elimination through
+arithmetic re-association. The re-association methods proposed utilise hash-based
+value numbering to identify equivalent sub-expressions. A method of scalar-
+replacement is also given, however, this review will focus solely on re-association.
+The report expresses concerns with previous methods of ranking expressions 
+by operators or variable names, and proposes the use of a frequency-based affinity
+instead. Sub-expressions are ranked by their frequencies within a program source and
+stored in an undirected affinity graph, where redundant subexpressions are found
+as \emph{maximal-cliques}. The report expresses that finding this is not
+entirely easy, though many studies are available on the relevant algorithms.
+The method is finalised with a method to identify the found redundant subexpressions.\\
+This report will investigate the practicality of utilising such a method in a
+compiler such as GraalVM, including its value-numbering extension to handle
+function calls within expressions. The method will be investigate by
+the number of newly found optimisations, especially when dealing with large
+complex expressions. The methods proposed by the report are predicted to
+not scale very well having an \emph{O(n\textsuperscript{2})} time complexity.
+This report will investigate the effect of using a list-based implementation in
+the hopes of achieving an \emph{O(n)} time complexity.
 
 \chapter{Methodology}
 \label{methods}
@@ -486,7 +516,7 @@ adhere to the following milestones:
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}{ |c|c| }
+    \begin{tabular}{ |p{8cm}|p{4cm}| }
         \hline
         \textbf{Milestone} & \textbf{Proposed Deadline}\\
         \hline
@@ -504,6 +534,50 @@ adhere to the following milestones:
     \caption{Proposed Milestones}
     \label{milestones}
 \end{table}
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{ |p{8cm}|p{4cm}| }
+        \hline
+        \textbf{Assessment Task} & \textbf{Due Date}\\
+        \hline
+        Academic Integrity Quiz & 14 March\\
+        \hline
+        Proposal Draft & 21 March\\
+        \hline
+        Project Proposal & 18 April\\
+        \hline
+        Progress Seminar & 10 May\\
+        \hline
+        Poster \& Demonstration & 18 October\\
+        \hline
+        Thesis Report & 04 November\\
+        \hline
+    \end{tabular}
+    \caption{Assessment Due Dates}
+    \label{duedates}
+\end{table}
+
+% TODO: make this work somehow
+% \begin{figure}[tbp]
+%     \begin{center}
+%         \begin{ganttchart}[y unit title=0.4cm,
+%             y unit chart=0.5cm,
+%             vgrid, hgrid,
+%             title label anchor/.styl={below=-1.6ex},
+%             title left shift=.05,
+%             title right shift=-.05,
+%             title height=1,
+%             progress label test={},
+%             bar height=0.7,
+%             group right shift=0,
+%             group top shift=.6,
+%             group height=.3]{1}{24}
+%         \end{ganttchart}
+%     \end{center}
+%     \caption{Workplan Gantt Chart}
+%     \label{workplan}
+% \end{figure}
 
 \section{Research}
 \label{research}
@@ -652,20 +726,20 @@ mitigation and prevention strategies:
 
 \begin{thebibliography}{99}
 \addcontentsline{toc}{chapter}{Bibliography}
-\bibitem{gvm} Oracle. 2024. \emph{GraalVM: An advanced JDK with ahead-of-time Native Image compilation}. https://github.com/oracle/graal
+\bibitem{gvm} Oracle. 2024. \emph{GraalVM: An advanced JDK with ahead-of-time Native Image compilation}. https://github.com/oracle/graal (accessed Mar. 9, 2024)
 \bibitem{vtgo} Brae J. Webb, Ian J. Hayes, and Mark Utting. 2023. \emph{Verifying Term Graph Optimizations using Isabelle/HOL}. In Proceedings of the 12th ACM SIGPLAN International Conference on Certified Programs and Proofs (CPP ’23), January 16–17, 2023, Boston, MA, USA. ACM, New York, NY, USA, 14 pages. https://doi.org/10.1145/3573105.3575673
 \bibitem{gir} Gilles Duboscq, Lukas Stadler, Thomas Wuerthinger, Doug Simon, Christian Wimmer, Hanspeter Moessenboeck. 2013. \emph{Graal IR: An Extensible Declarative Intermediate Representation}. https://api.semanticscholar.org/CorpusID:52231504
-\bibitem{gp} OpenJDK Community. 2012. \emph{Graal Project}. https://openjdk.org/projects/graal
+\bibitem{gp} OpenJDK Community. 2012. \emph{Graal Project}. https://openjdk.org/projects/graal (accessed Mar. 18, 2024)
 \bibitem{graph-based-ir} Cliff Click, Michael Paleczny. 1995. \emph{A Simple Graph-Based Intermediate Representation}. https://www.oracle.com/technetwork/java/javase/tech/c2-ir95-150110.pdf
 \bibitem{adv-comp} Steven S. Muchnick. 1997. \emph{Advanced Compiler Design and Implementation}. Chapter 12. ISBN 1-55860-320-4
-\bibitem{graalenterprise} Oracle. 2024. \emph{Oracle GraalVM Enterprise Edition 21}. https://docs.oracle.com/en/graalvm/enterprise/21/docs/reference-manual/java/compiler/\#graal-compiler
+\bibitem{graalenterprise} Oracle. 2024. \emph{Oracle GraalVM Enterprise Edition 21}. https://docs.oracle.com/en/graalvm/enterprise/21/docs/reference-manual/java/compiler/\#graal-compiler (accessed Mar. 17, 2024)
 \bibitem{effective-pre} Preston Briggs and Keith D. Cooper. 1994. \emph{Effective partial redundancy elimination}. SIGPLAN Not. 29, 6 (June 1994), 159–170. https://doi.org/10.1145/773473.178257
 \bibitem{poly-graal} M. Sipek, B. Mihaljevic, A. Radovan. 2021. \emph{Exploring Aspects of Polyglot High-Performance Virtual Machine GraalVM}. https://doi.org/10.23919/MIPRO.2019.8756917
 \bibitem{missed-opt} Gergoe Barany. 2018. \emph{Finding Missed Compiler Optimizations by Differential Testing}. Compiler Construction (CC’18). ACM, New York, NY, USA, 11 pages. https://doi.org/10.1145/3178372.3179521
-\bibitem{understanding} Chris Seaton. 2017. \emph{Understanding How Graal Works - a Java JIT Compiler Written in Java}. https://chrisseaton.com/truffleruby/jokerconf17/
+\bibitem{understanding} Chris Seaton. 2017. \emph{Understanding How Graal Works - a Java JIT Compiler Written in Java}. https://chrisseaton.com/truffleruby/jokerconf17/ (accessed Mar. 18, 2024)
 \bibitem{floats} Martyn J. Corden, David Kreitzer. 2018. \emph{Consistency of Floating-Point Results using the Intel Compiler or Why doesn't my application always give the same answer?}. Software Services Group, Intel Corporation. https://www.intel.com/content/dam/develop/external/us/en/documents/pdf/fp-consistency-121918.pdf
 \bibitem{redund} Keith Cooper, Jason Eckhardt, Ken Kennedy. 2008. \emph{Redundancy Elimination Revisited}. PACT’08, October 25–29, 2008, Toronto, Ontario, Canada. https://cscads.rice.edu/p12-cooper.pdf
-\bibitem{graalsrc} Oracle. 2015-2022. \emph{GraalVM Reassociation Phase Source}. https://github.com/oracle/graal/blob/master/compiler/src/\\jdk.graal.compiler/src/jdk/graal/compiler/phases/common/ReassociationPhase.java
+\bibitem{graalsrc} Oracle. 2015-2022. \emph{GraalVM Reassociation Phase Source}. https://github.com/oracle/graal/blob/master/compiler/src/\\jdk.graal.compiler/src/jdk/graal/compiler/phases/common/ReassociationPhase.java (accessed Mar. 15, 2024)
 \bibitem{hoist} David Monniaux, Cyril Six. 2022. \emph{Formally Verified Loop-Invariant Code Motion and Assorted Optimizations}. ACM Transactions on Embedded Computing Systems (TECS). ff10.114/3529507ff.hal03628646
 \end{thebibliography}
 \end{document}
