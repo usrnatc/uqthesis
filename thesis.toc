@@ -1,28 +1,28 @@
-\contentsline {chapter}{Acknowledgments}{v}
-\contentsline {chapter}{Abstract}{vii}
-\contentsline {chapter}{List of Figures}{x}
-\contentsline {chapter}{List of Tables}{xi}
-\contentsline {chapter}{\numberline {1}Introduction}{1}
-\contentsline {chapter}{\numberline {2}Background}{3}
-\contentsline {section}{\numberline {2.1}Arithmetic Re-Association}{3}
-\contentsline {section}{\numberline {2.2}Optimisations}{3}
-\contentsline {subsection}{\numberline {2.2.1}Algebraic Simplification}{3}
-\contentsline {subsection}{\numberline {2.2.2}Constant Folding}{4}
-\contentsline {subsection}{\numberline {2.2.3}Loop Invariant Code Motion}{4}
-\contentsline {section}{\numberline {2.3}Intermediate Representation}{4}
-\contentsline {section}{\numberline {2.4}GraalVM}{5}
-\contentsline {chapter}{\numberline {3}Literature Review}{6}
-\contentsline {section}{\numberline {3.1}Effective Partial Redundancy Elimination}{6}
-\contentsline {section}{\numberline {3.2}Finding Missed Compiler Optimizations by Differential Testing}{6}
-\contentsline {section}{\numberline {3.3}Redundancy Elimination Revisited}{7}
-\contentsline {chapter}{\numberline {4}Methodology}{8}
-\contentsline {section}{\numberline {4.1}Research}{8}
-\contentsline {section}{\numberline {4.2}Implementation}{9}
-\contentsline {section}{\numberline {4.3}Optimisation}{9}
-\contentsline {section}{\numberline {4.4}Report}{9}
-\contentsline {section}{\numberline {4.5}Testing}{10}
-\contentsline {section}{\numberline {4.6}Risks}{10}
-\contentsline {chapter}{\numberline {5}Results and discussion \dots }{12}
-\contentsline {chapter}{\numberline {6}Conclusions}{13}
-\contentsline {part}{Appendices}{14}
-\contentsline {chapter}{Bibliography}{15}
+\contentsline {chapter}{Acknowledgments}{v}{}%
+\contentsline {chapter}{Abstract}{vii}{}%
+\contentsline {chapter}{List of Figures}{x}{}%
+\contentsline {chapter}{List of Tables}{xi}{}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{}%
+\contentsline {chapter}{\numberline {2}Background}{3}{}%
+\contentsline {section}{\numberline {2.1}Arithmetic Re-Association}{3}{}%
+\contentsline {section}{\numberline {2.2}Optimisations}{3}{}%
+\contentsline {subsection}{\numberline {2.2.1}Algebraic Simplification}{3}{}%
+\contentsline {subsection}{\numberline {2.2.2}Constant Folding}{4}{}%
+\contentsline {subsection}{\numberline {2.2.3}Loop Invariant Code Motion}{4}{}%
+\contentsline {section}{\numberline {2.3}Intermediate Representation}{4}{}%
+\contentsline {section}{\numberline {2.4}GraalVM}{5}{}%
+\contentsline {chapter}{\numberline {3}Literature Review}{6}{}%
+\contentsline {section}{\numberline {3.1}Effective Partial Redundancy Elimination}{6}{}%
+\contentsline {section}{\numberline {3.2}Finding Missed Compiler Optimizations by Differential Testing}{6}{}%
+\contentsline {section}{\numberline {3.3}Redundancy Elimination Revisited}{7}{}%
+\contentsline {chapter}{\numberline {4}Methodology}{8}{}%
+\contentsline {section}{\numberline {4.1}Research}{8}{}%
+\contentsline {section}{\numberline {4.2}Implementation}{9}{}%
+\contentsline {section}{\numberline {4.3}Optimisation}{9}{}%
+\contentsline {section}{\numberline {4.4}Report}{9}{}%
+\contentsline {section}{\numberline {4.5}Testing}{10}{}%
+\contentsline {section}{\numberline {4.6}Risks}{10}{}%
+\contentsline {chapter}{\numberline {5}Results and discussion \dots }{11}{}%
+\contentsline {chapter}{\numberline {6}Conclusions}{12}{}%
+\contentsline {part}{Appendices}{13}{}%
+\contentsline {chapter}{Bibliography}{15}{}%
