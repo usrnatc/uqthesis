@@ -22,7 +22,7 @@
 \contentsline {section}{\numberline {4.4}Report}{9}{}%
 \contentsline {section}{\numberline {4.5}Testing}{10}{}%
 \contentsline {section}{\numberline {4.6}Risks}{10}{}%
-\contentsline {chapter}{\numberline {5}Results and discussion \dots }{11}{}%
-\contentsline {chapter}{\numberline {6}Conclusions}{12}{}%
-\contentsline {part}{Appendices}{13}{}%
+\contentsline {chapter}{\numberline {5}Results and discussion \dots }{12}{}%
+\contentsline {chapter}{\numberline {6}Conclusions}{13}{}%
+\contentsline {part}{Appendices}{14}{}%
 \contentsline {chapter}{Bibliography}{15}{}%

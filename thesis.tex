@@ -506,7 +506,7 @@ the number of newly found optimisations, especially when dealing with large
 complex expressions. The methods proposed by the report are predicted to
 not scale very well having an \emph{O(n\textsuperscript{2})} time complexity.
 This report will investigate the effect of using a list-based implementation in
-the hopes of achieving an \emph{O(n)} time complexity.
+the hopes of achieving close to an \emph{O(n)} time complexity.
 
 \chapter{Methodology}
 \label{methods}
@@ -514,7 +514,7 @@ the hopes of achieving an \emph{O(n)} time complexity.
 In order to maintain a sound workflow and maximise findings, this project will
 adhere to the following milestones:
 
-\begin{table}[ht]
+\begin{table}[h]
     \centering
     \begin{tabular}{ |p{8cm}|p{4cm}| }
         \hline
@@ -522,9 +522,9 @@ adhere to the following milestones:
         \hline
         Research & Week 7 Semester 1\\
         \hline
-        Implementation & Week 12 Semester 1\\
+        Implementation & Week 2 Semester 2\\
         \hline
-        Optimisation & Week 7 Semester 2\\
+        Optimisation & Week 9 Semester 2\\
         \hline
         Report & Week 13 Semester 2\\
         \hline
@@ -535,7 +535,7 @@ adhere to the following milestones:
     \label{milestones}
 \end{table}
 
-\begin{table}[ht]
+\begin{table}[h]
     \centering
     \begin{tabular}{ |p{8cm}|p{4cm}| }
         \hline
@@ -558,26 +558,34 @@ adhere to the following milestones:
     \label{duedates}
 \end{table}
 
-% TODO: make this work somehow
-% \begin{figure}[tbp]
-%     \begin{center}
-%         \begin{ganttchart}[y unit title=0.4cm,
-%             y unit chart=0.5cm,
-%             vgrid, hgrid,
-%             title label anchor/.styl={below=-1.6ex},
-%             title left shift=.05,
-%             title right shift=-.05,
-%             title height=1,
-%             progress label test={},
-%             bar height=0.7,
-%             group right shift=0,
-%             group top shift=.6,
-%             group height=.3]{1}{24}
-%         \end{ganttchart}
-%     \end{center}
-%     \caption{Workplan Gantt Chart}
-%     \label{workplan}
-% \end{figure}
+\begin{figure}[h]
+        \begin{ganttchart}[
+                y unit title=0.4cm,
+                y unit chart=0.5cm,
+                vgrid, hgrid,
+                title label anchor/.style={below=-1.6ex},
+                title left shift=.05,
+                title right shift=-.05,
+                title height=1,
+                milestone height=0.7,
+                bar height=0.7,
+                group right shift=0,
+                group top shift=.6,
+                group height=.3
+            ]{1}{26}
+            \gantttitle{Semester 1 Weeks}{13}
+            \gantttitle{Semester 2 Weeks}{13} \\
+            \gantttitlelist{1,...,13}{1}
+            \gantttitlelist{1,...,13}{1} \\
+            \ganttbar{Research}{1}{7} \\
+            \ganttbar{Implementation}{8}{15} \\
+            \ganttbar{Optimisation}{16}{20} \\
+            \ganttbar{Report}{21}{26} \\
+            \ganttbar{Testing}{1}{26}
+        \end{ganttchart}
+    \caption{Workplan Gantt Chart}
+    \label{workplan}
+\end{figure}
 
 \section{Research}
 \label{research}
