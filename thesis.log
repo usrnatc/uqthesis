@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.3.15)  7 APR 2024 19:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.3.15)  17 APR 2024 00:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -552,7 +552,7 @@ Chapter 3.
 [6
 
 ]
-Overfull \hbox (12.26244pt too wide) in paragraph at lines 491--510
+Overfull \hbox (12.26244pt too wide) in paragraph at lines 493--512
 \OT1/cmr/m/n/12 scalar- re-place-ment is also given, how-ever, this re-view wil
 l fo-cus solely on re-association.
  []
@@ -560,104 +560,104 @@ l fo-cus solely on re-association.
 [7]
 Chapter 4.
 
-Overfull \hbox (34.34396pt too wide) in paragraph at lines 588--589
+Overfull \hbox (34.34396pt too wide) in paragraph at lines 591--592
  [] 
  []
 
 [8
 
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [9]
-Overfull \hbox (1.76988pt too wide) in paragraph at lines 666--666
+Overfull \hbox (1.76988pt too wide) in paragraph at lines 669--669
 []\OT1/cmr/bx/n/12 Likelihood| 
  []
 
 
-Overfull \hbox (1.95183pt too wide) in paragraph at lines 666--666
+Overfull \hbox (1.95183pt too wide) in paragraph at lines 669--669
 []\OT1/cmr/bx/n/12 Consequence| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 668--668
+Underfull \hbox (badness 10000) in paragraph at lines 671--671
 []\OT1/cmr/m/n/12 Loss of
  []
 
 
-Underfull \hbox (badness 1675) in paragraph at lines 668--668
+Underfull \hbox (badness 1675) in paragraph at lines 671--671
 []\OT1/cmr/m/n/12 Manage mul-ti-ple in-
  []
 
 
-Underfull \hbox (badness 1038) in paragraph at lines 668--669
+Underfull \hbox (badness 1038) in paragraph at lines 671--672
 \OT1/cmr/m/n/12 server and save and
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 670--670
+Underfull \hbox (badness 10000) in paragraph at lines 673--673
 []\OT1/cmr/m/n/12 Milestone
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 670--671
+Underfull \hbox (badness 10000) in paragraph at lines 673--674
 []\OT1/cmr/m/n/12 Consistent check-ing
  []
 
 
-Underfull \hbox (badness 1097) in paragraph at lines 670--671
+Underfull \hbox (badness 1097) in paragraph at lines 673--674
 \OT1/cmr/m/n/12 of time man-age-ment
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 672--672
+Underfull \hbox (badness 10000) in paragraph at lines 675--675
 []\OT1/cmr/m/n/12 Loss of
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 672--672
+Underfull \hbox (badness 10000) in paragraph at lines 675--675
 \OT1/cmr/m/n/12 project
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 672--673
+Underfull \hbox (badness 10000) in paragraph at lines 675--676
 []\OT1/cmr/m/n/12 Consistent meet-ing
  []
 
 
-Underfull \hbox (badness 6428) in paragraph at lines 672--673
+Underfull \hbox (badness 6428) in paragraph at lines 675--676
 \OT1/cmr/m/n/12 with su-per-vi-sors to
  []
 
 
-Overfull \hbox (51.46448pt too wide) in paragraph at lines 664--675
+Overfull \hbox (51.46448pt too wide) in paragraph at lines 667--678
  [] 
  []
 
 
-Overfull \hbox (1.76988pt too wide) in paragraph at lines 684--684
+Overfull \hbox (1.76988pt too wide) in paragraph at lines 687--687
 []\OT1/cmr/bx/n/12 Likelihood| 
  []
 
 
-Overfull \hbox (1.95183pt too wide) in paragraph at lines 684--684
+Overfull \hbox (1.95183pt too wide) in paragraph at lines 687--687
 []\OT1/cmr/bx/n/12 Consequence| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 686--686
+Underfull \hbox (badness 10000) in paragraph at lines 689--689
 \OT1/cmr/m/n/12 of Com-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 686--686
+Underfull \hbox (badness 10000) in paragraph at lines 689--689
 []\OT1/cmr/m/n/12 Comfortable
  []
 
 
-Underfull \hbox (badness 1337) in paragraph at lines 686--687
+Underfull \hbox (badness 1337) in paragraph at lines 689--690
 \OT1/cmr/m/n/12 dur-ing com-puter us-
  []
 
 
-Overfull \hbox (51.46448pt too wide) in paragraph at lines 682--689
+Overfull \hbox (51.46448pt too wide) in paragraph at lines 685--692
  [] 
  []
 
@@ -670,60 +670,60 @@ Chapter 6.
 [13
 
 ] [14]
-Underfull \hbox (badness 10000) in paragraph at lines 745--746
+Underfull \hbox (badness 10000) in paragraph at lines 748--749
 []\OT1/cmr/m/n/12 Gilles Du-boscq, Lukas Stadler, Thomas Wuerthinger, Doug Si-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 745--746
+Underfull \hbox (badness 10000) in paragraph at lines 748--749
 \OT1/cmr/m/n/12 mon, Chris-tian Wim-mer, Hanspeter Moessen-boeck. 2013. \OT1/cm
 r/m/it/12 Graal
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 745--746
+Underfull \hbox (badness 10000) in paragraph at lines 748--749
 \OT1/cmr/m/it/12 IR: An Ex-ten-si-ble Declar-a-tive In-ter-me-di-ate Rep-re-sen
 -ta-tion\OT1/cmr/m/n/12 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 747--748
+Underfull \hbox (badness 10000) in paragraph at lines 750--751
 \OT1/cmr/m/it/12 Rep-re-sen-ta-tion\OT1/cmr/m/n/12 . https://www.oracle.com/tec
 hnetwork/java/javase/tech/c2-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 749--750
+Underfull \hbox (badness 10000) in paragraph at lines 752--753
 []\OT1/cmr/m/n/12 Oracle. 2024. \OT1/cmr/m/it/12 Or-a-cle GraalVM En-ter-prise 
 Edi-tion 21\OT1/cmr/m/n/12 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 749--750
+Underfull \hbox (badness 10000) in paragraph at lines 752--753
 \OT1/cmr/m/n/12 https://docs.oracle.com/en/graalvm/enterprise/21/docs/reference
 -
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 750--751
+Underfull \hbox (badness 10000) in paragraph at lines 753--754
 []\OT1/cmr/m/n/12 Preston Briggs and Keith D. Cooper. 1994. \OT1/cmr/m/it/12 Ef
 -fec-tive par-tial re-
  []
 
 
-Underfull \hbox (badness 4886) in paragraph at lines 750--751
+Underfull \hbox (badness 4886) in paragraph at lines 753--754
 \OT1/cmr/m/it/12 dun-dancy elim-i-na-tion\OT1/cmr/m/n/12 . SIG-PLAN Not. 29, 6 
 (June 1994), 159{170.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 751--752
+Underfull \hbox (badness 10000) in paragraph at lines 754--755
 []\OT1/cmr/m/n/12 M. Sipek, B. Mi-hal-je-vic, A. Radovan. 2021. \OT1/cmr/m/it/1
 2 Ex-plor-ing As-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 751--752
+Underfull \hbox (badness 10000) in paragraph at lines 754--755
 \OT1/cmr/m/it/12 pects of Poly-glot High-Performance Vir-tual Ma-chine GraalVM\
 OT1/cmr/m/n/12 .
  []
@@ -732,37 +732,37 @@ OT1/cmr/m/n/12 .
 
 
 ]
-Underfull \hbox (badness 1158) in paragraph at lines 754--755
+Underfull \hbox (badness 1158) in paragraph at lines 757--758
 []\OT1/cmr/m/n/12 Martyn J. Cor-den, David Kre-itzer. 2018. \OT1/cmr/m/it/12 Co
 n-sis-tency of Floating-Point
  []
 
 
-Underfull \hbox (badness 1024) in paragraph at lines 754--755
+Underfull \hbox (badness 1024) in paragraph at lines 757--758
 \OT1/cmr/m/it/12 Re-sults us-ing the In-tel Com-piler or Why doesn't my ap-pli-
 ca-tion al-ways
  []
 
 
-Underfull \hbox (badness 4242) in paragraph at lines 754--755
+Underfull \hbox (badness 4242) in paragraph at lines 757--758
 \OT1/cmr/m/it/12 give the same an-swer?\OT1/cmr/m/n/12 . Soft-ware Ser-vices Gr
 oup, In-tel Cor-po-ra-tion.
  []
 
 
-Overfull \hbox (15.98323pt too wide) in paragraph at lines 754--755
+Overfull \hbox (15.98323pt too wide) in paragraph at lines 757--758
 \OT1/cmr/m/n/12 https://www.intel.com/content/dam/develop/external/us/en/docume
 nts/pdf/fp-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 756--757
+Underfull \hbox (badness 10000) in paragraph at lines 759--760
 []\OT1/cmr/m/n/12 Oracle. 2015-2022. \OT1/cmr/m/it/12 GraalVM Re-as-so-ci-a-tio
 n Phase Source\OT1/cmr/m/n/12 .
  []
 
 
-Overfull \hbox (30.86226pt too wide) in paragraph at lines 756--757
+Overfull \hbox (30.86226pt too wide) in paragraph at lines 759--760
 \OT1/cmr/m/n/12 jdk.graal.compiler/src/jdk/graal/compiler/phases/common/Reassoc
 iationPhase.java
  []
@@ -772,14 +772,10 @@ iationPhase.java
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
  16017 strings out of 474222
- 332921 string characters out of 5748733
+ 332919 string characters out of 5748733
  1953975 words of memory out of 5000000
  38031 multiletter control sequences out of 15000+600000
  565306 words of font info for 60 fonts, out of 8000000 for 9000
@@ -789,16 +785,15 @@ Here is how much of TeX's memory you used:
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl12.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmti8.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmtt12.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.
-pfb>
-Output written on thesis.pdf (28 pages, 176448 bytes).
+f-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmtt12.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfr
+m1200.pfb>
+Output written on thesis.pdf (28 pages, 168564 bytes).
 PDF statistics:
- 151 PDF objects out of 1000 (max. 8388607)
- 98 compressed objects within 1 object stream
+ 146 PDF objects out of 1000 (max. 8388607)
+ 95 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  18 words of extra memory for PDF output out of 10000 (max. 10000000)
 

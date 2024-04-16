@@ -281,21 +281,23 @@ optimisations. Consequently, to maximise the effectiveness of an optimising
 compiler, we must ensure effectiveness of re-association methods. That is,
 expressions need to be represented in such a way that eases the implementation
 of optimisations.
-Currently, the GraalVM compiler optimises expressions by way 
-of graph comparisons and manipulations when the \verb|ReassociationPhase| is invoked.
-For example, the phase would transform an expression such as \verb|x + y + z - x - y|
-by grouping like sub-expressions, forming possibly \verb|x - x + y - y + z|. This
-allows the compiler to easily reason that further optimisations can be applied, 
-including algebraic simplification, resulting in the simplified expression \verb|z|.
+Currently, the GraalVM compiler optimises expressions within loops by way 
+of graph comparisons and manipulations invoked via the \verb|ReassociationPhase|.
+This phase, for example, would take an expression such as \verb|x + y + z - z - y| and
+re-order its sub-expressions such that like-terms are grouped, possibly forming
+\verb|x - x + y - y + z|. The compiler can then non-trivially apply, in this
+instance, algebriac simplifications to produce just \verb|z|.
 For lengthy or complex expressions GraalVM`s graph manipulations can become computationally 
 expensive and the \verb|ReassociationPhase| is only utilised on expressions within
-loop bodies~\cite{graalsrc}.\\
+loop bodies~\cite{graalsrc}. By replacing the current method with a list-based
+implementation, the \verb|ReassociationPhase| within the GraalVM compiler may be
+made less computationally expensive, and extended to be utilised on expressions
+found both in and out of loop bodies.\\
 The purpose of this report is to investigate the effectiveness of current method
 of arithmetic re-association within the GraalVM compiler to a list-based
-implementation. The report will attempt
-to determine short-comings of the compiler by way of missed further expression optimisations.
-A alternative, list-based method of re-association will be investigated to maximise the
-effectiveness of optimisations within the GraalVM compiler.
+implementation. The report will investigate the current re-association method,
+and will provide an alternative list-based implementation. These methods will
+be compared by expression optimisations found after each is applied.
 The report will have the following structure:~\secn{ara} will discuss
 arithmetic re-association following on with~\secn{opt} covering some of the further optimisations it aids,
 ~\secn{ir} will cover how a compiler can represent source code using graphs,
@@ -357,8 +359,8 @@ simplification can be seen in~\fig{simp}.
 \label{cf}
 
 Constant folding is the process of trivially merging sequences of sub-expressions 
-containing only constant values. Simply, the expression \(2 + 3 - 1\) would be 
-transformed to be \(4\).
+containing only constant values. Simply, the expression \verb|2 + 3 - 1| would be 
+transformed to be \verb|4|.
 
 \subsection{Loop Invariant Code Motion}
 \label{licm}
@@ -506,7 +508,7 @@ the number of newly found optimisations, especially when dealing with large
 complex expressions. The methods proposed by the report are predicted to
 not scale very well having an \emph{O(n\textsuperscript{2})} time complexity.
 This report will investigate the effect of using a list-based implementation in
-the hopes of achieving close to an \emph{O(n)} time complexity.
+the hopes of achieving a time complexity closer to \emph{O(n)}.
 
 \chapter{Methodology}
 \label{methods}
@@ -524,7 +526,7 @@ adhere to the following milestones:
             \hline
             Implementation & Week 2 Semester 2\\
             \hline
-            Optimisation & Week 9 Semester 2\\
+            Optimisation & Week 7 Semester 2\\
             \hline
             Report & Week 13 Semester 2\\
             \hline
@@ -580,11 +582,12 @@ adhere to the following milestones:
             \gantttitle{Semester 2 Weeks}{13} \\
             \gantttitlelist{1,...,13}{1}
             \gantttitlelist{1,...,13}{1} \\
+            \ganttnewline
             \ganttbar{Research}{1}{7} \\
             \ganttbar{Implementation}{8}{15} \\
             \ganttbar{Optimisation}{16}{20} \\
             \ganttbar{Report}{21}{26} \\
-            \ganttbar{Testing}{1}{26}
+            \ganttbar{Testing}{1}{26} \\
         \end{ganttchart}
         \caption{Workplan Gantt Chart}
         \label{workplan}
