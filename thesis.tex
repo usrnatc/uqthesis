@@ -3,6 +3,13 @@
 \usepackage{cite}
 \usepackage{listings}
 \usepackage{pgfgantt}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{tikz}
+\graphicspath{{../demo_pictures/pngs/}}
 
 % If you use a macro file called macros.tex :
 % \input{macros}
@@ -47,6 +54,8 @@
 \newcommand{\chap}[1] {Chapter~\ref{#1}}	% Chapter~...
 \newcommand{\secn}[1] {Section~\ref{#1}}	% Section~...
 \newcommand{\ssec}[1] {Subsection~\ref{#1}}	% Subsection~...
+\newcommand{\alg}[1]  {Algorithm~\ref{#1}}  % Algorithm~ ...
+\newcommand{\app}[1]  {Appendix~\ref{#1}}   % Appendix~ ...
 
 % AIDS TO FORMATTING:
 \newcommand{\teq}[1]	{\mbox{$#1$}}	% in-Text EQuation (unbreakable)
@@ -126,6 +135,33 @@
 \newcommand{\Mohm}	{\ensuremath{\rm\,M\Omega}}
 \newcommand{\degs}	{\ensuremath{\rm^{\circ}}}
 
+\definecolor{codegreen}{rgb}{0, 0.6, 0}
+\definecolor{codegrey}{rgb}{0.5, 0.5, 0.5}
+\definecolor{codepurple}{rgb}{0.58, 0, 0.82}
+\definecolor{backcolour}{rgb}{0.95, 0.95, 0.92}
+
+\lstdefinestyle{codestyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegrey},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4
+}
+
+\renewcommand{\lstlistingname}{Code Snippet}
+\renewcommand{\lstlistlistingname}{List of Code Snippets}
+
 % LaTeX run-time type-in command:
 %
 \typein{Enter \protect\includeonly{...} command (or just type RETURN):}
@@ -166,7 +202,7 @@
 		Nathan Corcoran
 		\medskip\\
 \rm
-		School of Information Technology and Electrical Engineering,\\
+		School of Electrical Engineering and Computer Science,\\
 		The University of Queensland.\\
 \vspace{30mm}
 		Submitted for the degree of\\
@@ -176,7 +212,7 @@
 		in the field of Software Engineering
 		\medskip\\
 \large
-		March 2024.
+		November 2024.
 \end{center}
 \end{titlepage}
 
@@ -184,16 +220,16 @@
 
 \begin{flushright}
     Nathan Corcoran\\
-    n.corcoran@uqconnect.edu.au\\
+    n.corcoran@uq.edu.au\\
 	\medskip
 	\today
 \end{flushright}
 \begin{flushleft}
   Prof Michael Bruenig\\
   Head of School\\
-  School of Information Technology and Electrical Engineering\\
+  School of Electrical Engineering and Computer Science\\
   The University of Queensland\\
-  St Lucia, Q 4072\\
+  St Lucia, QLD 4072\\
   \bigskip\bigskip
   Dear Professor Bruenig,
 \end{flushleft}
@@ -203,7 +239,7 @@ Engineering in the division of
 Software Engineering,
 I present the
 following thesis entitled ``Investigating A Linear Approach
-to Arithmetic Re-Association in GraalVM''.  
+to Arithmetic Re-Association within GraalVM''.  
 This work was performed under the supervision of
 A/Prof.\ Mark Utting, Prof.\ Ian J.\ Hayes and, Mr.\ Brae Webb.
 
@@ -215,7 +251,7 @@ institution.
 \begin{flushright}
 	Yours sincerely,\\
 	\medskip
-	\emph{--INSERT SIGNATURE--}\\
+    \includegraphics[width=0.3\linewidth]{my_signature}\\
 	\medskip
 	Nathan Corcoran.
 \end{flushright}
@@ -224,28 +260,35 @@ institution.
 
 \chapter{Acknowledgments}
 
-Acknowledge your supervisor, preferably with a few short and specific
-statements about his/her contribution to the content and direction of
-the project.  If you collaborated with another student, acknowledge
-your partner's contribution, including any parts of the thesis of
-which s/he was the principal author or co-author; this information can
-be duplicated in footnotes to the chapters or sections to which your
-partner has contributed.  Briefly describe any assistance that you
-received from technical or administrative staff.  Support of family
-and friends may also be acknowledged, but avoid sentimentality---or
-hide it in the dedication.
+I would like to acknowledge my supervisors A/Prof.\ Mark Utting, Prof.\ Ian J.\
+Hayes, and Mr.\ Brae Webb for their continual support and guidance throughout
+the entire project. Thank you all for enabling me to learn a great deal through 
+this experience.
 
 \cleardoublepage
 
 \chapter{Abstract}
+
+Optimising compilers are essential tools for building efficient modern
+programs. The GraalVM compiler, released by Oracle,
+aims to achieve high levels of optimisation. Arithmetic expressions provide
+many opportunities for optimisation, with arithmetic re-association playing
+a crucial role in identifying chances for further optimisations. Currently,
+when re-associating complex expressions, the GraalVM compiler's method
+of graph manipulations are insufficient. By reducing arithmetic 
+expressions to a list of operands, they can be ranked common factors and through
+a simple sort like-terms can be grouped. From this, algebraic simplifications can
+be as trivial as removing elements within the list. This approach simplifies the re-association
+process and allows the GraalVM compiler to apply further optimisations that
+were not previously identifiable.
 
 \tableofcontents
 
 \listoffigures
 \addcontentsline{toc}{chapter}{List of Figures}
 
-\listoftables
-\addcontentsline{toc}{chapter}{List of Tables}
+\lstlistoflistings
+\addcontentsline{toc}{chapter}{List of Code Snippets}
 
 % If file los.tex begins with ``\chapter{List of Symbols}'':
 % \include{los}
@@ -281,30 +324,34 @@ optimisations. Consequently, to maximise the effectiveness of an optimising
 compiler, we must ensure effectiveness of re-association methods. That is,
 expressions need to be represented in such a way that eases the implementation
 of optimisations.
-Currently, the GraalVM compiler optimises expressions within loops by way 
-of graph comparisons and manipulations invoked via the \verb|ReassociationPhase|.
+Currently, the GraalVM compiler optimises expressions by way 
+of graph comparisons and manipulations invoked via the \verb|ReassociationPhase|~\cite{graalsrc}.
 This phase, for example, would take an expression such as \verb|x + y + z - z - y| and
 re-order its sub-expressions such that like-terms are grouped, possibly forming
 \verb|x - x + y - y + z|. The compiler can then non-trivially apply, in this
-instance, algebriac simplifications to produce just \verb|z|.
-For lengthy or complex expressions GraalVM`s graph manipulations can become computationally 
-expensive and the \verb|ReassociationPhase| is only utilised on expressions within
-loop bodies~\cite{graalsrc}. By replacing the current method with a list-based
-implementation, the \verb|ReassociationPhase| within the GraalVM compiler may be
-made less computationally expensive, and extended to be utilised on expressions
-found both in and out of loop bodies.\\
-The purpose of this report is to investigate the effectiveness of current method
-of arithmetic re-association within the GraalVM compiler to a list-based
-implementation. The report will investigate the current re-association method,
-and will provide an alternative list-based implementation. These methods will
-be compared by expression optimisations found after each is applied.
-The report will have the following structure:~\secn{ara} will discuss
-arithmetic re-association following on with~\secn{opt} covering some of the further optimisations it aids,
-~\secn{ir} will cover how a compiler can represent source code using graphs,
-~\secn{graal} will discuss the GraalVM compiler, ~\secn{litrev} will review some previous work on 
-optimising compilers, and finally,~\secn{methods} will present a 
-plan to investigate shortcomings of current methods within the GraalVM compiler
-as well as a plan to rectify them.
+instance, algebraic simplifications to produce just \verb|z|.
+For complex expressions, the GraalVM compiler's approach to re-association are inexhaustive
+and potentially computationally expensive. By replacing the current method with 
+our list-based approach, arithmetic re-association is trivial. \\
+In this report, a method of arithmetic re-association is proposed that re-orders
+expressions by manipulating a list of its operands. It will be shown that by
+ranking and sorting a list of operands, further expression optimisations
+can be identified and applied by the GraalVM compiler. \\
+\chap{bg} covers background information regarding arithmetic re-association;
+some common algebraic simplifications; the role of intermediate representation
+within compiler design, detailing how arithmetic expressions can be represented;
+and finally the GraalVM compiler itself. \\
+\chap{litrev} investigates known methods of arithmetic re-association and 
+a method of testing optimising compilers. \\
+\chap{methods} details the proposed list-based approach, covering the steps
+of graph preparation, expression tree flattening, operand ranking, a possible 
+method of optimising certain expression trees, and expression tree 
+reconstruction. Testing performed and problems that
+arose during the implementation process are also included. \\
+\chap{results} shows and discusses that the proposed approach successfully
+re-associates and simplifies complex arithmetic expressions. \\
+\chap{conclusion} summarises this report and presents possible further work for 
+future researchers.
 
 \chapter{Background}
 \label{bg}
@@ -319,7 +366,7 @@ expression to be made evident. Re-association methods use associative,
 distributive, and commutative properties of some operators to re-order arithmetic
 expressions.
 Using re-association, a compiler would transform the expression
-\verb|x = 23 + i + y + 43 + i| into the form \verb|x = i + i + y + 23 + 43|. It
+\verb|x = 23 + i + y + 43 + i| into the form \\ \verb|x = i + i + y + 23 + 43|. It
 is now easier for the compiler to reason that the sub-expression \verb|23 + 43|
 can be optimised to a single constant.
 Arithmetic re-association only alters the representation of a given expression,
@@ -337,8 +384,8 @@ applied~\cite{floats}.
 Algebraic simplification can allow for large performance optimisations in
 programs. It is the process of simplifying expressions which can produce smaller
 but equivalent expressions, or replace operators with which are faster to compute. 
-This process utilises mathematical properties such as associativity; commutativity; 
-distributivity; and operator identities. Some simple examples of algebraic
+This process utilises mathematical properties such as associativity, commutativity, 
+distributivity, and operator identities. Some simple examples of algebraic
 simplification can be seen in~\fig{simp}. 
 
 \begin{figure}[htbp]
@@ -370,7 +417,7 @@ the number of computations required within loop bodies. If a sub-
 expression is reasoned to be constant, that is invariant, across all loop iterations, 
 this value can be stored elsewhere and its resulting value can be referenced inside of the
 loop. A trivial example of this can be seen in~\fig{hoist}. More complex scenarios
-arise when function calls are hoisted, yeilding larger performance optimisations.
+arise when function calls are hoisted, yielding larger performance optimisations.
 
 \begin{figure}
     \begin{minipage}[l]{0.4\linewidth}
@@ -406,13 +453,66 @@ are defined by the optimisations expecting to be performed.
 Common forms of IR are graph-, tree-, and stack-based structures. These are
 usually selected depending on how much information is needed from the source
 code in order to apply an optimisation.
-This report will focus on graph-based intermediate representation.
+This report focuses on graph-based IR, however both tree- and 
+graph-based representations of arithmetic expressions are discussed further 
+in~\secn{exptrees}.
+
+\subsection{Arithmetic Expressions}
+\label{exptrees}
+
+\emph{Arithmetic Expression Trees} (AETs) leverage the hierarchical nature
+of binary trees to represent mathematical expressions~\cite{exptrees}. The internal
+nodes of the tree correspond to \emph{operators} whilst the leaf nodes
+represent \emph{operands}. These structures can be specialised by the 
+operator stored at their root, where only internal nodes of the same 
+type as the root are also considered operators and the remaining
+nodes are handled as operands. This allows the AET to exhibit properties
+of its root operator such as associativity, commutativity, and distributivity.
+An appropriate expression tree, such as an addition-expression tree or a
+multiplication-expresssion tree, can be re-associated without affecting the
+resulting value of the expression.
+\fig{addtree} shows an example of an addition-expression tree, where the
+operator nodes are shown in \textcolor{red}{red} and the operand nodes in
+\textcolor{cyan}{blue}. \\
+Whilst traditional AETs following the strict structure
+of binary trees, arithmetic expressions can also be represented using a
+graph-based structure, as they are in the GraalVM compiler. 
+Although the slight difference in structure, both representations
+are interfaced in the same way as expression traversal is not affected.
+
+\begin{center}
+\begin{figure}[htbp]
+    \hspace{0.28\textwidth}
+    \begin{minipage}[c]{\linewidth}
+        \fbox{
+            \begin{tikzpicture}[
+                    >=stealth, 
+                    every node/.style={circle, draw, minimum size=0.75cm}, 
+                    level 1/.style={sibling distance=8em}, 
+                    level 2/.style={sibling distance=5em}
+            ]
+                \node [fill=red] {$+$}
+                    child {node [fill=red] {$+$}
+                        child {node [fill=cyan] {$x$}}
+                        child {node [fill=cyan] {$y$}}
+                    }
+                    child {node [fill=cyan] {$*$}
+                        child {node {$i$}}
+                        child {node {$j$}}
+                    };
+            \end{tikzpicture}
+        }
+    \end{minipage}
+    \caption{Example Addition-Expression Tree}
+    \label{addtree}
+\end{figure}
+\end{center}
 
 \section{GraalVM}
 \label{graal}
 
 The GraalVM compiler, released by Oracle Labs, is a polyglot optimising compiler
-for languages that run on the Java Virtual Machine (JVM). It focuses on aggresively
+for languages that run on the Java Virtual Machine (JVM). It focuses on aggressively
 optimising programs, with around 62 possible methods~\cite{graalenterprise} of doing so.\\
 The GraalVM compiler uses a graph-based structure as an intermediate
 representation. Graphs are an efficient way to store program flow contexts. Nodes represent
@@ -433,7 +533,7 @@ applied in sequence. \verb|PhaseSuite|s can be scheduled within other \verb|Phas
 The compiler uses three tiers to run phases; low, mid, and high. Progressing from
 the high to the low tier, lower and lower level optimisations are applied to the
 graph. After each tier has completed, the graph is prepared for the next, called
-\emph{lowering}~\cite{poly-graal}
+\emph{lowering}~\cite{poly-graal}.
 
 \chapter{Literature Review}
 \label{litrev}
@@ -444,21 +544,16 @@ graph. After each tier has completed, the graph is prepared for the next, called
 This report addresses methods to increase the effectiveness of partial redundancy
 elimination within an optimising compiler. Cooper and Briggs~\cite{effective-pre} propose 
 a method of
-\emph{global reassociation} to re-arrange expressions within a program.\\
+\emph{global re-association} to re-arrange expressions within a program.\\
 The report uses a system to sort sub-expressions by ranking the operators within
-them. It uses these ranks as a hueristic to determine a sub-expressions new
+them. It uses these ranks as a heuristic to determine a sub-expressions new
 location within an expression and to determine which sub-expressions should be
-distributed.\\
-This report will investigate the methods proposed to determine any benefit in
-a the GraalVM compiler, though some concerns are immediately apparent. The report
-proposes the use of \emph{expression trees} to store sub-expressions and their
-associated ranks, and are forward-propagated. This is generally a space-expensive
-operation. This report will investigate the pay off from gained optimisations, if any, to 
-the excessive memory usage that may present itself when re-associating very large 
-and complex expressions. The report also explicitly states that what it proposes 
-is not an optimal solution, but rather one that produces good results. 
-This report will investigate extensions to the method presented for optimal 
-arithmetic re-association.
+distributed. The report proposes the use of \emph{expression trees} to store sub-expressions 
+and their associated ranks, and are forward-propagated. \\
+Our approach utilises the operand ranking scheme detailed 
+by Cooper and Briggs, however their arithmetic re-association implementation is 
+replaced with a list-based method simplifying re-association and removing the 
+need for any propagation.
 
 \section{Finding Missed Compiler Optimizations by Differential Testing}
 \label{litrev2}
@@ -468,7 +563,7 @@ compiler optimisations. Barany~\cite{missed-opt} generates random programs with 
 source code constraints and compares generated binaries across 3 C compilers; GCC,
 Clang, and CompCert. The binaries are compared with a Python tool called 
 \verb|optdiff|. The randomly generated code was restricted by omitting any code
-that would (A) invoke undefined behaviour from the language, and (B) rely on 
+that would (\emph{a}) invoke undefined behaviour from the language, and (\emph{b}) rely on 
 compiler-defined implementations of certain features, order of evaluation of
 expressions is presented as an example. The report correctly identifies some 
 difficulties in using differential analysis on generated binaries, however, 
@@ -477,15 +572,10 @@ The report scope is extremely broad in that it attempts to catch missed
 opportunities from a large range of expected optimisations, some of which are
 explicitly stated as begin architecture-specific. The report also states that
 some initial results were found to be false-positive.\\
-This report will investigate the usage of differential analysis to find missed optimisations within the 
-GraalVM compiler. In an attempt to maximise the validity of any findings, this report
-will narrow the scope of missed optimisations to be searched for, and methods
-data used when comparing. This report will investigate this testing method
-focusing on finding missed optimisations relating to arithmetic expressions, and
-the usage of generated IR graphs for comparison. A method to randomly generate
-large complex expressions with corresponding simplified equivalents will be
-investigated. In order to uphold correctness, a verification method will also 
-be investigated.
+Our approach utilises both pre-existing and newly implemented unit tests to 
+determine missed optimisation opportunities. Final IR graphs are compared 
+after all compiler phases have been completed, enabling integrated testing of
+our modifications.
 
 \section{Redundancy Elimination Revisited}
 \label{litrev3}
@@ -497,218 +587,266 @@ replacement is also given, however, this review will focus solely on re-associat
 The report expresses concerns with previous methods of ranking expressions 
 by operators or variable names, and proposes the use of a frequency-based affinity
 instead. Sub-expressions are ranked by their frequencies within a program source and
-stored in an undirected affinity graph, where redundant subexpressions are found
+stored in an undirected affinity graph, where redundant sub-expressions are found
 as \emph{maximal-cliques}. The report expresses that finding this is not
 entirely easy, though many studies are available on the relevant algorithms.
-The method is finalised with a method to identify the found redundant subexpressions.\\
-This report will investigate the practicality of utilising such a method in a
-compiler such as GraalVM, including its value-numbering extension to handle
-function calls within expressions. The method will be investigate by
-the number of newly found optimisations, especially when dealing with large
-complex expressions. The methods proposed by the report are predicted to
-not scale very well having an \emph{O(n\textsuperscript{2})} time complexity.
-This report will investigate the effect of using a list-based implementation in
-the hopes of achieving a time complexity closer to \emph{O(n)}.
+The method is finalised with a method to identify the found redundant sub-expressions.\\
+The approach proposed in this report adopts a simpler method of identifying
+redundant operands. Instead of using affinity graphs with complicated logic,
+a simple list is used to ease both re-association and final expression
+simplifications. The method proposed by Cooper, \emph{et al.}\ has a time complexity
+of \emph{O(n\textsuperscript{2})}, whereas our method achieves closer to that of
+\emph{O(log(n))}.
 
 \chapter{Methodology}
 \label{methods}
 
-In order to maintain a sound workflow and maximise findings, this project will
-adhere to the following milestones:
+\section{Approach}
+\label{approach}
 
-\begin{table}[ht]
-    \begin{center}
-        \begin{tabular}{ |p{8cm}|p{4cm}| }
-            \hline
-            \textbf{Milestone} & \textbf{Proposed Deadline}\\
-            \hline
-            Research & Week 7 Semester 1\\
-            \hline
-            Implementation & Week 2 Semester 2\\
-            \hline
-            Optimisation & Week 7 Semester 2\\
-            \hline
-            Report & Week 13 Semester 2\\
-            \hline
-            Testing & Throughout\\
-            \hline
-        \end{tabular}
-        \caption{Proposed Milestones}
-        \label{milestones}
-    \end{center}
-\end{table}
+In order to re-associate an arithmetic expression as described in~\secn{ara},
+there are at least four approaches one can take. First, one could approach the 
+expression in the
+form of a tree and attempt to re-associate each applicable node by swapping
+a node's operands where appropriate, as it is implemented currently in GraalVM~\cite{graalenterprise}.
+This approach is by no means exhaustive; it is limited to the context of only
+the individual node that it is re-associating. \\
+Alternatively, one could consider all expressions within a program at once,
+where operands are grouped by common factors consequently separating constants from variables,
+as described in~\secn{litrev1}. However, this leads to excessive computational complexity. \\
+Continuing a heuristic-based approach, one could re-associate each expression individually,
+and rank each operand by their frequencies within a program. This would perform
+re-association via an affinity graph as outlined in~\secn{litrev3}, increasing the
+complexity of the implementation further. \\
+The fourth approach, and the one used for this investigation, transforms
+individual expressions from a tree of operands to a simple list. This approach
+views each expression in its entire context and allows it to be re-associated 
+and simplified by swapping and removing elements respectively. This approach
+is detailed in \app{reassociateexpr} and its individual components are
+further discussed in the sections to follow.
 
-\begin{table}[ht]
-    \begin{center}
-        \begin{tabular}{ |p{8cm}|p{4cm}| }
-            \hline
-            \textbf{Assessment Task} & \textbf{Due Date}\\
-            \hline
-            Academic Integrity Quiz & 14 March\\
-            \hline
-            Proposal Draft & 21 March\\
-            \hline
-            Project Proposal & 18 April\\
-            \hline
-            Progress Seminar & 10 May\\
-            \hline
-            Poster \& Demonstration & 18 October\\
-            \hline
-            Thesis Report & 04 November\\
-            \hline
-        \end{tabular}
-        \caption{Assessment Due Dates}
-        \label{duedates}
-    \end{center}
-\end{table}
+\section{Graph Preparation}
+\label{preparegraph}
 
-\begin{figure}[ht]
-    \begin{center}
-        \begin{ganttchart}[
-                y unit title=0.4cm,
-                y unit chart=0.5cm,
-                vgrid, hgrid,
-                title label anchor/.style={below=-1.6ex},
-                title left shift=.05,
-                title right shift=-.05,
-                title height=1,
-                milestone height=0.7,
-                bar height=0.7,
-                group right shift=0,
-                group top shift=.6,
-                group height=.3
-            ]{1}{26}
-            \gantttitle{Semester 1 Weeks}{13}
-            \gantttitle{Semester 2 Weeks}{13} \\
-            \gantttitlelist{1,...,13}{1}
-            \gantttitlelist{1,...,13}{1} \\
-            \ganttnewline
-            \ganttbar{Research}{1}{7} \\
-            \ganttbar{Implementation}{8}{15} \\
-            \ganttbar{Optimisation}{16}{20} \\
-            \ganttbar{Report}{21}{26} \\
-            \ganttbar{Testing}{1}{26} \\
-        \end{ganttchart}
-        \caption{Workplan Gantt Chart}
-        \label{workplan}
-    \end{center}
-\end{figure}
+To maximise the effectiveness of the \emph{ReassociationPhase},
+the IR graph is altered prior to applying any re-association techniques.
+Arithmetic operator nodes within the graph may have been altered by a previous
+compiler phase. As it may allow further re-association, these operators
+should be reverted to their original representation. The multiplication operator 
+is often converted
+to a left-shift operator, a technique discussed in ~\secn{as}. These
+transformations prohibit our approach because a multiplication operator is 
+associative whereas a left-shift operator is not. \\
+Currently, the GraalVM compiler applies this reversion, however an extension
+is proposed. \\
+With our approach, expressions of the form \verb|x - y| are altered to the
+form \verb|x + (-y)|, allowing the compiler to recognise the expression
+as a chance for re-association where it previously could not. For the same
+reason, when the compiler is attempting to re-associate a multiplication-expression,
+operands of the form \verb|-x| are transformed to sub-expressions of the form
+\verb|x * -1|. \\
 
-\section{Research}
-\label{research}
+\section{Expression Tree Flattening}
+\label{flattening}
 
-Research for the project will consist of the following:
+To make re-association as simple a process as possible, arithmetic expressions
+need to be structured in a way such that both operand re-ordering and operand
+removal are easily and efficiently applicable. Our approach represents
+expressions as \emph{lists of operands}. Arithmetic expression graphs are
+traversed for applicable operands, as discussed in~\secn{exptrees}. A
+breadth-first traversal of the graph is conducted, during which nodes that
+require further traversing are maintained in a \emph{work-list} whilst the 
+remaining nodes form the resulting list of operands. Within this process,
+shown in \app{flattentree}, the original order of the operands is maintained
+to ensure deterministic compilation.
 
-\begin{itemize}
-\item Further investigate expression re-association techniques
-\item Further investigate methods of testing compiler optimisations
-\item Develop implementation plan for alternate expression re-association techniques
-\item Develop implementation plan for testing alternate methods
-\item Become familiar with the GraalVM compiler structure
-\end{itemize}
+\section{Operand Ranking}
+\label{oprank}
 
-\section{Implementation}
-\label{implementation}
+Operand ranking plays a vital role in facilitating the re-association of 
+arithmetic expressions. It serves as a pre-processing step that enables the 
+grouping of similar terms within an expression, as discussed in ~\secn{ara}.
+The approach proposed in this report assigns numerical ranks to operands by
+identifying relationships between terms, even when they appear within unary
+or binary arithmetic operators. This heuristic ranking scheme, detailed in
+\app{rankop}, allows for re-association through a simple sorting of the list
+of operands. This re-association ensures that similar terms are positioned
+adjacently. This operand ranking and sorting approach lays the foundation
+for the compiler to easily identify potential expression simplifications in
+the subsequent optimisation step.
 
-Implementation for the project will consist of the following:
+\section{Expression Optimisation}
+\label{optimise}
 
-\begin{itemize}
-\item Develop expression re-association algorithm
-\item Integrate expression re-association algorithm in to GraalVM compiler
-\item Consistent meetings with supervisors to review implementation
-\end{itemize}
+The expression optimisation step aims to reduce the complexity of an arithmetic
+expression while preserving its semantic value. The proposed approach begins
+by applying constant folding, evaluating and simplifying static numerical
+terms within the expression. For addition-expressions, the optimisation
+process identifies and eliminates redundant operands, such as negations of 
+identical terms (\emph{e.g.} \verb|x - x|). Following these initial 
+simplifications, our approach leverages the distributive and commutative
+properties of the addition operator to perform strength reduction. This involves
+consolidating operands with common factors, transforming additive forms into
+multiplicative, and combining coefficients when possible. The re-associated
+operands, resulting from the previous ranking and sorting step, enable the
+identification of these simplification opportunities through efficient linear
+scans. By systematically applying these optimisation techniques, complex
+arithmetic expressions are transformed into their simplified counterparts,
+leading to improved program performance and reduced computational overhead.
 
-\section{Optimisation}
-\label{optimisation}
+\section{Expression Tree Reconstruction}
+\label{reconstruction}
 
-Optimisation for the project will be completed if deemed necessary and will
-consist of the following:
-
-\begin{itemize}
-\item Profile implementation to identify potential performance bottlenecks
-\item Plan implementation performance fixes
-\item Consistent meetings with supervisors to review code fixes
-\end{itemize}
-
-\section{Report}
-\label{report}
-
-Report writing for the project will consist of the following:
-
-\begin{itemize}
-\item Consistent upkeep of progress journal
-\item Consistent logging of findings
-\item Determining future improvements of findings
-\item Determining further usages of re-association algorithm
-\item Consistent meetings with supervisors to discuss potential edits
-\end{itemize}
+After applying the expression optimisation techniques discussed in \secn{optimise},
+our approach must reconstruct the original expression to reflect the simplifications
+and re-associations performed. The expression tree reconstruction algorithm,
+detailed in \app{reconstructtree}, takes the re-associated and optimised
+list of operands and rebuilds the binary expression tree in a bottom-up
+manner. The algorithm iteratively processes pairs of operands until the entire
+optimised tree is reconstructed. This approach ensures that the resulting
+expression tree can be seamlessly integrated back into the program's
+graph for further compilation phases.
 
 \section{Testing}
-\label{testing}
+\label{testingmethod}
 
-Testing within the project will be continuous and will ultimately shape the
-final implementation. Testing for the project will consist of the following:
+To ensure the effectiveness of the proposed arithmetic re-association approach,
+a \emph{test-driven development} (TDD) methodology was employed throughout the
+project. TDD involves creating test cases before implementing the corresponding
+functionality, allowing for incremental development and continuous validation
+of the system's behaviour. This approach was adopted to gauge the progression
+of the project and maintain code quality at each stage of development. \\
+Unit testing formed the core of the testing strategy, focusing on verifying
+the correctness of individual components and algorithms. The existing test
+suite of the GraalVM compiler was leveraged, and additional unit tests were
+created to cover specific scenarios related to redundant operand elimination
+and complex expression simplification. These new test cases can be found in
+\app{expsimplifytests} and \app{mulsimplifytests} respectively. \\
+The unit tests were designed to validate the expected behaviour of the 
+re-association and optimisation algorithms. Each test case consisted of an input
+expression and its corresponding expected optimised form. By comparing the
+actual resulting graph structure of the implemented algorithms with the expected
+graph structure, the correctness of the re-association and simplification
+processes could be verified. \\
+The test-driven development approach allowed for the early detection and 
+resolution of issues, ensuring that the implemented functionality aligned
+with the desired outcomes. The iterative nature of TDD facilitated the
+refinement of the algorithms and the handling of edge cases, resulting in a
+more robust and reliable implementation. \\
+Furthermore, the integration of the new unit tests into the existing GraalVM
+test suite provided a means to validate the compatibility of the proposed
+approach with the overall compiler infrastructure. This integration testing
+helped identify any potential conflicts or regressions introduced by our
+modifications to the GraalVM compiler. \\
+By employing the use of integrated unit tests through the principles of 
+test-driven development, the development process aimed to deliver a
+well-tested arithmetic re-association approach that seamlessly integrates with
+the current GraalVM compiler.
 
-\begin{itemize}
-\item Develop testing of compiler optimisations that may be missed
-\item Develop complex expressions to test compiler optimisation
-\item Investigate method of automatic running of tests
-\item Consistent meetings with supervisors and peers for recommendations of testing methods
-\end{itemize}
+\section{Problems}
+\label{problems}
 
-\section{Risks}
-\label{risks}
+Throughout the implementation process some problems arose. It is no small task
+to modify an already large code base, especially one like GraalVM where in
+places documentation is scarce. This made it difficult to know the most optimal
+method of completing actions relating to IR graph manipulation. This was overcome
+by observing and mimicking the styles of code already present. \\
+Another problem came from utilising the proposed operand ranking scheme. 
+Although IR nodes may be equivalent in value, it is not certain that they 
+will adopt the same \emph{GVN} identifiers. This may seem contradictory to the
+nature of GVN, however it may be possible that this is to
+ensure variable values are queried appropriately in 
+concurrent environments~\cite{volatilejvm}. This was overcome by comparing variable node's 
+locations in memory to determine node equivalence. \\
+The final problem was found when utilising the unit tests within the
+GraalVM compiler. The tests ensure exact equivalence of resulting IR graphs,
+producing some false negative results. This is because our proposed approach
+eagerly re-associates expressions, even when no further simplification may be
+found. To temporarily overcome this issue, tests with negative results were
+manually checked for real graph differences. To appropriately fix this issue,
+the testing methods should be relaxed to only test the resulting value of the
+expression, and not its entire graph structure. This may introduce further 
+problems in regards to the determinism of the compiler.
 
-The following risks have been determined for the project along with associated
-mitigation and prevention strategies:
+\chapter{Results and Discussion}
+\label{results}
 
-\begin{table}[ht]
-    \begin{center}
-        \begin{tabular}{ |p{2cm}|p{2.1cm}|p{2.6cm}|p{4cm}|p{4cm}| }
-            \hline
-            \textbf{Risk} & \textbf{Likelihood} & \textbf{Consequence} & \textbf{Mitigation} & \textbf{Prevention}\\
-            \hline
-            Loss of work & Unlikely & Severe & Manage multiple instances of progress & Store progress on UQ server and save and push regularly\\
-            \hline
-            Milestone delays & Unlikely & Moderate & Create time management plan & Consistent checking of time management plan and meeting with supervisors\\
-            \hline
-            Loss of project direction & Unlikely & Low & Create clear task plan & Consistent meeting with supervisors to review work\\
-            \hline
-        \end{tabular}
-        \caption{Project Risks}
-        \label{project-risk-table}
-    \end{center}
-\end{table}
+Analysis of the GraalVM compiler's current re-association method compared
+to our proposed list-based implementation reveals significant improvements
+in optimisation capabilities. The results demonstrate the effectiveness of 
+flattening arithmetic expression trees into linear lists of operands
+prior to re-association and simplification. \\
+Operand Elimination Tests, shown in \fig{varelim} through to \fig{varelim5},
+illustrate that our approach consistently produces more optimal graph
+structures whilst maintaining semantic equivalence. The current GraalVM
+implementation, when processing expressions such as \verb|x + y - x + x - y + z|,
+produces graphs containing redundant arithmetic operations. In contrast,
+our list-based implementation successfully identifies and eliminates these
+redundancies, producing the simplified expression \verb|x + z|. This
+transformation is evidenced by the reduced size of the resulting graphs. \\
+Multiplication simplification tests, presented in \fig{mulsimp} through to
+\fig{mulsimp3}, further demonstrates the advantages of our approach. The
+list-based implementation successfully identifies opportunities for
+strength reduction and term consolidation that are not captured by the
+current graph-based method. For instance:
 
-\begin{table}[ht]
-    \begin{center}
-        \begin{tabular}{ |p{2cm}|p{2.1cm}|p{2.6cm}|p{4cm}|p{4cm}| }
-            \hline
-            \textbf{Risk} & \textbf{Likelihood} & \textbf{Consequence} & \textbf{Mitigation} & \textbf{Prevention}\\
-            \hline
-            Unsafe use of Computer & Unlikely & Moderate & Comfortable workspace & Ensure regular breaks during computer usage\\
-            \hline
-        \end{tabular}
-        \caption{Safety Risks}
-        \label{safety-risk-table}
-    \end{center}
-\end{table}
-% \begin{figure}[htbp]
-% \caption{Experimental two-way active crossover (op-amp version)}
-% \label{flr1}
-% \end{figure}
-\chapter{Results and discussion \ldots}
-% 
-% \ldots\ or perhaps the discussion should be a separate chapter.
-% 
-% In any case, you will probably need to include tabulated results.
-% \tab{tf2} illustrates the use of various \LaTeX\ environments to
-% include a computer printout (plain text file) in a document.  The
-% \texttt{verbatim} environment, which encloses the formatted text, is
-% also useful for program listings.
-% 
-% 
+\begin{enumerate}
+    \item{When processing the expression \verb|(x * 3) + (x * 4)|, our
+        implementation consolidates the common factor \verb|x| and combines
+        the constant terms, yielding \verb|x * 7|.}
+    \item{More complex expressions containing both variables and constants,
+        such as \verb|(x * 3) + (x * y) + (x * 5)|, are transformed into
+        \verb|x * (y + 8)|, demonstrating effective factorisation.}
+    \item{The implementation handles nested expressions effectively, as
+        shown in \fig{mulsimp3}, where \verb|(x * y) + (x * z) + (x * 6) + w|
+        is optimised to \\ \verb|x * (y + z + 6) + w|.}
+\end{enumerate}
+
+In all test cases shown, the proposed implementation produces intermediate
+representations with reduced complexity compared to the current GraalVM
+compiler. This reduction in graph complexity not only indicates more effective
+optimisation but also suggests potential improvements in compilation
+efficiency. These results provide evidence that representing arithmetic
+expressions as sorted lists of ranked operands facilitates the identification
+and application of optimisations that are missed by the current approach.
+
 \chapter{Conclusions}
+\label{conclusion}
+
+In summary, this investigation has demonstrated that a list-based approach to
+arithmetic re-association within the GraalVM compiler offers significant
+advantages over the current graph-based implementation. The proposed method
+successfully identifies and applies optimisations that were previously
+unattainable, whilst maintaining the semantic correctness of the transformed
+expressions. \\
+The effectiveness of our approach stems from its ability to view arithmetic
+expressions in their entirety, rather than being limited to individual nodes
+within a graph-structure. By flattening expression trees into linear lists
+of ranked operands, the implementation can more readily identify
+opportunities for expression simplifications. \\
+The success of this list-based implementation suggests that similar approaches
+may be beneficial in other areas of compiler optimisation where current
+graph-based methods face limitations. This work contributes to the 
+ongoing development of the GraalVM compiler's optimisation capabilities
+and demonstrates the value of exploring linear-based approaches in
+compiler design.
+
+\section{Future Work}
+\label{futurework}
+
+Further research opportunities exist in extending the proposed approach to 
+implement re-association and simplifications for more arithmetic operators
+than just multiplication and addition. \\
+The formal verification of our proposed algorithms, through automatic theorem proving
+provides a crucial direction for future work, particularly given recent
+successes in verifying GraalVM's graph transformations \cite{vtgo}. \\
+Finally, the evaluation of this approach on larger code bases, especially those
+containing complex numerical computations, would provide valuable insights
+into the proposed implementation's real-world impact on compilation speed and
+program runtime performance. This comprehensive testing would more
+accurately quantify the benefits of reduced graph complexity and may
+identify potential scalability constraints of the proposed list-based approach.
+
 % 
 % \section{Summary and conclusions}
 % 
@@ -731,13 +869,490 @@ mitigation and prevention strategies:
 % table of contents.
 
 % \include appendix chapters here.
-
-% \chapter{Dummy appendix}
+\chapter{Algorithm Listings}
+\label{appendixalgo}
 
 % Appendices are useful for supplying necessary details or explanations
 % which do not seem to fit into the main text, perhaps because they are
 % too long and would distract the reader from the central argument.
 % Appendices are also used for program listings.
+\section{Expression Re-Association Algorithm}
+\begin{algorithm}[H]
+    \caption{Expression Re-Association} \label{reassociateexpr}
+    % \hspace*{\algorithmicindent} \textbf{Input:} $G$, a StructuredGraph containing all LIR nodes of source program
+    \begin{algorithmic}[1]
+        \Procedure{ReassociateExpression}{$G$}
+            \ForAll{Node $n \in G$.nodes}
+                \If{$n$ is not (AddNode or MulNode)}
+                    \State continue
+                \EndIf
+                \If{($n$ is not alive) or ($n$ has no usages)}
+                    \State continue
+                \EndIf
+                \State $expTree \gets$ empty list
+                \State $expOps \gets$ empty list
+                \State FlattenExpressionTree($n$, $expTree$, $G$)
+                \ForAll{RankedValue $rv \in expTree$}
+                    \If{$rv$.rank = 1}
+                        \State $newRank \gets$ ComputeOperandRank($rv$.value)
+                        \State $expOps$.Append(RankedValue($rv$.value, $newRank$))
+                    \ElsIf{$rv$.rank $>$ 1}
+                        \For{$[1 \ldots rv$.rank$]$}
+                            \State $newRank \gets$ ComputeOperandRank($rv$.rank)
+                            \State $expOps$.Append(RankedValue($rv$.value, $newRank$))
+                        \EndFor
+                    \EndIf
+                \EndFor
+                \State Sort($expOps$)
+                \State $newVal \gets$ OptimiseExpression($n$, $expOps$)
+                \If{$newVal$ is not $null$}
+                    \If{$newVal$ = $n$}
+                        \State continue
+                    \EndIf
+                    \State $newVal \gets G$.AddOrUnique($newVal$)
+                    \State $G$.ReplaceAllUsages($n$, $newVal$)
+                    \State continue
+                \EndIf
+                \algstore{part1}
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+    \begin{algorithmic}[1]
+        \algrestore{part1}
+                \If{$expOps$.size = 1}
+                    \State $opLeft \gets expOps[0]$.value
+                    \If{$opLeft$ = $n$}
+                        \State continue
+                    \EndIf
+                    \State $opLeft \gets G$.AddOrUnique($opLeft$)
+                    \State $G$.ReplaceAllUsages($n$, $opLeft$)
+                    \State continue
+                \EndIf
+                \State $expOps$.Reverse()
+                \State ReconstructExpressionTree($n$, $expOps$)
+            \EndFor
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+\section{Expression Tree Flattening Algorithm}
+\label{flattentree}
+\begin{algorithm}[H]
+    \caption{Expression Tree Flattening}
+    \begin{algorithmic}[1]
+        \Procedure{FlattenExpressionTree}{$n$, $expOps$, $G$}
+            \State $W \gets$ empty list
+            \State $expLeaves \gets$ empty map
+            \State $expLeafOrd \gets$ empty list
+            \State $W$.Append(RankedValue($n$, 1))
+            \While{$W$ is not empty}
+                \State $curVal \gets W$.TakeFirst()
+                \State $curOp \gets curVal$.value
+                \ForAll{Node $in \in curOp$.inputs}
+                    \State $weight \gets curOp$.rank
+                    \If{$in$ is BinaryArithmeticNode}
+                        \If{$in$.nodeType = $n$.nodeType}
+                            \State $W$.Append(RankedValue($in$, $weight$))
+                            \State continue
+                        \EndIf
+                    \EndIf
+                    \If{$in \notin expLeaves$}
+                        \If{$in$.usageCount $\neq$ 1}
+                            \State $expLeafOrd$.Append($in$)
+                            \State $expLeaves[in] \gets weight$
+                            \State continue
+                        \EndIf
+                    \Else
+                        \State $prevWeight \gets expLeaves[in]$
+                        \State $expLeaves[in] \gets prevWeight + weight$
+                        \If{$in$.usageCount $\neq$ 1}
+                            \State continue
+                        \EndIf
+                        \State $weight \gets expLeaves[in]$
+                        \State remove $in$ from $expLeaves$
+                    \EndIf
+                    \If{$n$ is MulNode and $in$ is NegateNode}
+                        \State $inVal \gets in$.value
+                        \State $newMul \gets G$.AddOrUnique(MulNode($inVal$, -1))
+                        \State $G$.ReplaceAllUsages($in$, $newMul$)
+                        \State $W$.Append(RankedValue($newMul$, $weight$))
+                        \State continue
+                    \EndIf
+                    \State $expLeafOrd$.Append($in$)
+                    \State $expLeaves[in] \gets weight$
+                \EndFor
+            \EndWhile
+            \algstore{part1}
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+    \begin{algorithmic}[1]
+        \algrestore{part1}
+        \ForAll{Node $node \in expLeafOrd$}
+            \If{$node \in expLeaves$}
+                \State $weight \gets expLeaves[node]$
+                \State $expOps$.Append(RankedValue($node$, $weight$))
+            \EndIf
+        \EndFor
+        \If{$expOps$ is empty}
+            \If{$n$ is AddNode}
+                \State $identity \gets G$.AddOrUnique(ConstantNode(0))
+            \ElsIf{$n$ is MulNode}
+                \State $identity \gets G$.AddOrUnique(ConstantNode(1))
+            \EndIf
+            \State $expOps$.Append(RankedValue($identity$, 1))
+        \EndIf
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+\section{Expression Tree Reconstruction Algorithm}
+\label{reconstructtree}
+\begin{algorithm}[H]
+    \caption{Expression Tree Reconstruction} 
+    \begin{algorithmic}[1]
+        \Require{$expOps >$ 1}
+        \Procedure{ReconstructExpressionTree}{$n$, $expOps$}
+            \State $op \gets n$
+            \State $notRewritable \gets$ empty list
+            \ForAll{RankedValue $rv \in expOps$}
+                \State $notRewritable$.Append($rv$.value)
+            \EndFor
+            \State $i \gets$ 0
+            \While{true}
+                \If{$i$ + 2 = $expOps$.size}
+                    \State $newLHS \gets expOps[i]$.value
+                    \State $newRHS \gets expOps[i$ $+$ 1$]$.value
+                    \State $oldLHS \gets op$.lhs
+                    \State $oldRHS \gets op$.rhs
+                    \If{$newLHS$ = $oldLHS$ and $newRHS$ = $oldRHS$}
+                        \State break
+                    \EndIf
+                    \If{$newLHS$ = $oldRHS$ and $newRHS$ = $oldLHS$}
+                        \State $op$.lhs $\gets newRHS$
+                        \State $op$.rhs $\gets newLHS$
+                        \State break
+                    \EndIf
+                    \If{$newLHS \neq oldLHS$}
+                        \State $op$.lhs $\gets newLHS$
+                    \EndIf
+                    \If{$newRHS \neq oldRHS$}
+                        \State $op$.rhs $\gets newRHS$
+                    \EndIf
+                    \State break
+                \EndIf
+                \State $newRHS \gets expOps[i]$.value
+                \If{$newRHS \neq op$.rhs}
+                    \If{$newRHS$ = $op$.lhs}
+                        \State $oldRHS \gets op$.rhs
+                        \State $op$.lhs $\gets oldRHS$
+                        \State $op$.rhs $\gets newRHS$
+                    \Else
+                        \State $op$.rhs $\gets newRHS$
+                    \EndIf
+                \EndIf
+                \algstore{part1}
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+    \begin{algorithmic}[1]
+        \algrestore{part1}
+            \If{($op$.lhs is AddNode) or ($op$.lhs is MulNode)}
+                \If{$op$.lhs $\notin notRewritable$}
+                    \State $op \gets op$.lhs
+                    \State $i \gets i + 1$
+                    \State continue
+                \EndIf
+            \EndIf
+            \State $newNode \gets n$.CopyWithInputs()
+            \State $newNode$.ClearInputs()
+            \State $op$.lhs $\gets newNode$
+            \State $op \gets newNode$
+            \State $i \gets i + 1$
+            \EndWhile
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+\section{Operand Ranking Algorithm}
+\begin{algorithm}[H]
+    \caption{Operand Ranking} \label{rankop}
+    \begin{algorithmic}[1]
+        \Procedure{OperandRank}{$n$}
+            \If{$n$ is ConstantNode}
+                \State return 0
+            \ElsIf{$n$ is BinaryArithmeticNode}
+                \State return (max(OperandRank($n$.LHS), OperandRank($n$.RHS)) $+$ 1)
+            \ElsIf{$n$ is NegateNode}
+                \State return OperandRank($n$.value)
+            \EndIf
+            \State return $n$.id \Comment{return $n$'s unique GVN ID}
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+\chapter{Test Code Listings}
+\label{testcode}
+
+\section{Operand Elimination Tests}
+\label{expsimplifytests}
+
+\lstset{style=codestyle}
+
+\begin{lstlisting}[language=Java, caption=Operand Elimination Tests, escapeinside=``]
+// Variable Elimination 1
+public static int
+testVariableElimination_Actual()
+{
+    return (x + y * 0 + z - z);
+}
+
+public static int
+testVariableElimination_Expected()
+{
+    return (x);
+}
+
+// Variable Elimination 2
+public static int
+testVariableElimination2_Actual()
+{
+    return ((x - y) + (y - z) + z);
+}
+
+public static int
+testVariableElimination2_Expected()
+{
+    return (x);
+}
+`\newpage`
+// Variable Elimination 3
+public static int
+testVariableElimination3_Actual()
+{
+    return (x + y - x + x - y + z);
+}
+
+public static int
+testVariableElimination3_Expected()
+{
+    return (x + z);
+}
+
+// Variable Elimination 4
+public static int
+testVariableElimination4_Actual()
+{
+    return ((5 * x) - x);
+}
+
+public static int
+testVariableElimination4_Expected()
+{
+    return (4 * x);
+}
+
+// Variable Elimination 5
+public static int
+testVariableElimination5_Actual()
+{
+    return ((5 * x) + x + x);
+}
+
+public static int
+testVariableElimination5_Expected()
+{
+    return (7 * x);
+}
+`~`
+\end{lstlisting}
+
+\newpage
+
+\section{Multiplication Simplification Tests}
+\label{mulsimplifytests}
+
+\begin{lstlisting}[language=Java, caption=Multiplication Simplification Tests, escapeinside=``]
+// Simplify Multiplication Expression 1
+public static int
+testMulAddSimplify_Actual()
+{
+    return ((x * 3) + (x * 4));
+}
+
+public static int
+testMulAddSimplify_Expected()
+{
+    return (x * 7);
+}
+
+// Simplify Multiplication Expression 2
+public static int
+testMulAddSimplify2_Actual()
+{
+    return ((x * 3) + (x * y) + (x * 5));
+}
+
+public static int
+testMulAddSimplify2_Expected()
+{
+    return (x * (y + 8));
+}
+
+// Simplify Multiplication Expression 3
+public static int
+testMulAddSimplify3_Actual()
+{
+    return ((x * y) + (x * z) + (x * 6) + w);
+}
+
+public static int
+testMulAddSimplify3_Expected()
+{
+    return (x * (y + z + 6) + w);
+}
+`~`
+\end{lstlisting}
+
+\chapter{Result Listings}
+\label{appresults}
+
+\section{Operand Elimination Results}
+\label{opelimres}
+
+\begin{figure}[H]
+    \begin{minipage}[l]{0.4\textwidth}
+        \includegraphics[width=\linewidth]{variable_elimination2_old}
+    \end{minipage}
+    \hspace{0.05\textwidth}
+    \begin{minipage}[l]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{variable_elimination2_new}
+    \end{minipage}
+    \hspace*{0.03\textwidth}
+    (a) Graph-based Method
+    \hspace{0.25\textwidth}
+    (b) List-based Method
+    \caption{testVariableElimination Resulting Graphs}
+    \label{varelim}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[l]{0.4\textwidth}
+        \includegraphics[width=\linewidth]{variable_elimination3_old}
+    \end{minipage}
+    \hspace{0.05\textwidth}
+    \begin{minipage}[l]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{variable_elimination3_new}
+    \end{minipage}
+    \hspace*{0.03\textwidth}
+    (a) Graph-based Method
+    \hspace{0.25\textwidth}
+    (b) List-based Method
+    \caption{testVariableElimination2 Resulting Graphs}
+    \label{varelim2}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[l]{0.4\textwidth}
+        \includegraphics[width=\linewidth]{variable_elimination4_old}
+    \end{minipage}
+    \hspace{0.05\textwidth}
+    \begin{minipage}[l]{0.65\textwidth}
+        \includegraphics[width=\linewidth, height=4cm]{variable_elimination4_new}
+    \end{minipage}
+    \hspace*{0.03\textwidth}
+    (a) Graph-based Method
+    \hspace{0.25\textwidth}
+    (b) List-based Method
+    \caption{testVariableElimination3 Resulting Graphs}
+    \label{varelim3}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[l]{0.4\textwidth}
+        \includegraphics[width=\linewidth]{variable_elimination5_old}
+    \end{minipage}
+    \hspace{0.05\textwidth}
+    \begin{minipage}[l]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{variable_elimination5_new}
+    \end{minipage}
+    \hspace*{0.03\textwidth}
+    (a) Graph-based Method
+    \hspace{0.25\textwidth}
+    (b) List-based Method
+    \caption{testVariableElimination4 Resulting Graphs}
+    \label{varelim4}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[l]{0.4\textwidth}
+        \includegraphics[width=\linewidth]{variable_elimination6_old}
+    \end{minipage}
+    \hspace{0.05\textwidth}
+    \begin{minipage}[l]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{variable_elimination6_new}
+    \end{minipage}
+    \hspace*{0.03\textwidth}
+    (a) Graph-based Method
+    \hspace{0.25\textwidth}
+    (b) List-based Method
+    \caption{testVariableElimination5 Resulting Graphs}
+    \label{varelim5}
+\end{figure}
+
+\section{Multiplication Simplification Results}
+\label{muladdres}
+
+\begin{figure}[H]
+    \begin{minipage}[l]{0.4\textwidth}
+        \includegraphics[width=\linewidth]{mul_add_old}
+    \end{minipage}
+    \hspace{0.05\textwidth}
+    \begin{minipage}[l]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{mul_add_new}
+    \end{minipage}
+    \hspace*{0.03\textwidth}
+    (a) Graph-based Method
+    \hspace{0.25\textwidth}
+    (b) List-based Method
+    \caption{testMulAddSimplify Resulting Graphs}
+    \label{mulsimp}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[l]{0.4\textwidth}
+        \includegraphics[width=\linewidth]{mul_add2_old}
+    \end{minipage}
+    \hspace{0.18\textwidth}
+    \begin{minipage}[l]{0.4\textwidth}
+        \includegraphics[width=\linewidth]{mul_add2_new}
+    \end{minipage}
+    \hspace*{0.03\textwidth}
+    (a) Graph-based Method
+    \hspace{0.25\textwidth}
+    (b) List-based Method
+    \caption{testMulAddSimplify2 Resulting Graphs}
+    \label{mulsimp2}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[l]{0.4\textwidth}
+        \includegraphics[width=\linewidth]{mul_add3_old}
+    \end{minipage}
+    \hspace{0.18\textwidth}
+    \begin{minipage}[l]{0.4\textwidth}
+        \includegraphics[width=\linewidth]{mul_add3_new}
+    \end{minipage}
+    \hspace*{0.03\textwidth}
+    (a) Graph-based Method
+    \hspace{0.25\textwidth}
+    (b) List-based Method
+    \caption{testMulAddSimplify3 Resulting Graphs}
+    \label{mulsimp3}
+\end{figure}
 
 \cleardoublepage
 
@@ -758,5 +1373,7 @@ mitigation and prevention strategies:
 \bibitem{redund} Keith Cooper, Jason Eckhardt, Ken Kennedy. 2008. \emph{Redundancy Elimination Revisited}. PACT’08, October 25–29, 2008, Toronto, Ontario, Canada. https://cscads.rice.edu/p12-cooper.pdf
 \bibitem{graalsrc} Oracle. 2015-2022. \emph{GraalVM Reassociation Phase Source}. https://github.com/oracle/graal/blob/master/compiler/src/\\jdk.graal.compiler/src/jdk/graal/compiler/phases/common/ReassociationPhase.java (accessed Mar. 15, 2024)
 \bibitem{hoist} David Monniaux, Cyril Six. 2022. \emph{Formally Verified Loop-Invariant Code Motion and Assorted Optimizations}. ACM Transactions on Embedded Computing Systems (TECS). ff10.114/3529507ff.hal03628646
+\bibitem{exptrees} Douglas Thain. 2020. \emph{Introduction to Compilers and Language Design Second Edition}. Chapter 5. ISBN 0-35913-804-7
+\bibitem{volatilejvm} Lun Liu, Todd Millstein, and Madanlal Musuvathi. 2017. \emph{A Volatile-by-Default JVM for Server Applications}. Proc. ACM Program. Lang. 1, OOPSLA, Article 49 (October 2017), 25 pages. https://doi.org/10.1145/3133873
 \end{thebibliography}
 \end{document}

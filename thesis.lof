@@ -4,8 +4,19 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Examples of algebraic simplifications}}{4}{}%
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Example of before and after hoisting respectively}}{4}{}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Example Addition-Expression Tree}}{5}{}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Workplan Gantt Chart}}{9}{}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {C.1}{\ignorespaces testVariableElimination Resulting Graphs}}{29}{}%
+\contentsline {figure}{\numberline {C.2}{\ignorespaces testVariableElimination2 Resulting Graphs}}{29}{}%
+\contentsline {figure}{\numberline {C.3}{\ignorespaces testVariableElimination3 Resulting Graphs}}{30}{}%
+\contentsline {figure}{\numberline {C.4}{\ignorespaces testVariableElimination4 Resulting Graphs}}{30}{}%
+\contentsline {figure}{\numberline {C.5}{\ignorespaces testVariableElimination5 Resulting Graphs}}{30}{}%
+\contentsline {figure}{\numberline {C.6}{\ignorespaces testMulAddSimplify Resulting Graphs}}{31}{}%
+\contentsline {figure}{\numberline {C.7}{\ignorespaces testMulAddSimplify2 Resulting Graphs}}{31}{}%
+\contentsline {figure}{\numberline {C.8}{\ignorespaces testMulAddSimplify3 Resulting Graphs}}{32}{}%

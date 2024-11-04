@@ -1,7 +1,7 @@
 \contentsline {chapter}{Acknowledgments}{v}{}%
 \contentsline {chapter}{Abstract}{vii}{}%
 \contentsline {chapter}{List of Figures}{x}{}%
-\contentsline {chapter}{List of Tables}{xi}{}%
+\contentsline {chapter}{List of Code Snippets}{xi}{}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{}%
 \contentsline {chapter}{\numberline {2}Background}{3}{}%
 \contentsline {section}{\numberline {2.1}Arithmetic Re-Association}{3}{}%
@@ -10,19 +10,34 @@
 \contentsline {subsection}{\numberline {2.2.2}Constant Folding}{4}{}%
 \contentsline {subsection}{\numberline {2.2.3}Loop Invariant Code Motion}{4}{}%
 \contentsline {section}{\numberline {2.3}Intermediate Representation}{4}{}%
+\contentsline {subsection}{\numberline {2.3.1}Arithmetic Expressions}{5}{}%
 \contentsline {section}{\numberline {2.4}GraalVM}{5}{}%
-\contentsline {chapter}{\numberline {3}Literature Review}{6}{}%
-\contentsline {section}{\numberline {3.1}Effective Partial Redundancy Elimination}{6}{}%
-\contentsline {section}{\numberline {3.2}Finding Missed Compiler Optimizations by Differential Testing}{6}{}%
-\contentsline {section}{\numberline {3.3}Redundancy Elimination Revisited}{7}{}%
-\contentsline {chapter}{\numberline {4}Methodology}{8}{}%
-\contentsline {section}{\numberline {4.1}Research}{8}{}%
-\contentsline {section}{\numberline {4.2}Implementation}{9}{}%
-\contentsline {section}{\numberline {4.3}Optimisation}{9}{}%
-\contentsline {section}{\numberline {4.4}Report}{10}{}%
-\contentsline {section}{\numberline {4.5}Testing}{10}{}%
-\contentsline {section}{\numberline {4.6}Risks}{10}{}%
-\contentsline {chapter}{\numberline {5}Results and discussion \dots }{12}{}%
-\contentsline {chapter}{\numberline {6}Conclusions}{13}{}%
-\contentsline {part}{Appendices}{14}{}%
-\contentsline {chapter}{Bibliography}{15}{}%
+\contentsline {chapter}{\numberline {3}Literature Review}{7}{}%
+\contentsline {section}{\numberline {3.1}Effective Partial Redundancy Elimination}{7}{}%
+\contentsline {section}{\numberline {3.2}Finding Missed Compiler Optimizations by Differential Testing}{7}{}%
+\contentsline {section}{\numberline {3.3}Redundancy Elimination Revisited}{8}{}%
+\contentsline {chapter}{\numberline {4}Methodology}{9}{}%
+\contentsline {section}{\numberline {4.1}Approach}{9}{}%
+\contentsline {section}{\numberline {4.2}Graph Preparation}{9}{}%
+\contentsline {section}{\numberline {4.3}Expression Tree Flattening}{10}{}%
+\contentsline {section}{\numberline {4.4}Operand Ranking}{10}{}%
+\contentsline {section}{\numberline {4.5}Expression Optimisation}{11}{}%
+\contentsline {section}{\numberline {4.6}Expression Tree Reconstruction}{11}{}%
+\contentsline {section}{\numberline {4.7}Testing}{11}{}%
+\contentsline {section}{\numberline {4.8}Problems}{12}{}%
+\contentsline {chapter}{\numberline {5}Results and Discussion}{14}{}%
+\contentsline {chapter}{\numberline {6}Conclusions}{16}{}%
+\contentsline {section}{\numberline {6.1}Future Work}{16}{}%
+\contentsline {part}{Appendices}{18}{}%
+\contentsline {chapter}{\numberline {A}Algorithm Listings}{19}{}%
+\contentsline {section}{\numberline {A.1}Expression Re-Association Algorithm}{20}{}%
+\contentsline {section}{\numberline {A.2}Expression Tree Flattening Algorithm}{22}{}%
+\contentsline {section}{\numberline {A.3}Expression Tree Reconstruction Algorithm}{24}{}%
+\contentsline {section}{\numberline {A.4}Operand Ranking Algorithm}{25}{}%
+\contentsline {chapter}{\numberline {B}Test Code Listings}{26}{}%
+\contentsline {section}{\numberline {B.1}Operand Elimination Tests}{26}{}%
+\contentsline {section}{\numberline {B.2}Multiplication Simplification Tests}{28}{}%
+\contentsline {chapter}{\numberline {C}Result Listings}{29}{}%
+\contentsline {section}{\numberline {C.1}Operand Elimination Results}{29}{}%
+\contentsline {section}{\numberline {C.2}Multiplication Simplification Results}{31}{}%
+\contentsline {chapter}{Bibliography}{33}{}%
